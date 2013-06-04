@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+	<g:HTMLPanel styleName="Login-PageContainer">
+		<g:VerticalPanel styleName="Login-MainContainer" horizontalAlignment="ALIGN_CENTER">
+			<g:FlowPanel styleName="Login-TextContainer">
+				<g:Label text="Tour Guide Application" styleName="Login-TextTitle"/>
+			</g:FlowPanel>
+			<g:VerticalPanel styleName="Login-FormContainer" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+				<g:HorizontalPanel styleName="Login-RowItem" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+					<g:Label text="Username:" styleName="Login-Text"/>
+					<g:TextBox focus="false" width="170px" height="20px" ui:field="TextBoxUserName"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel styleName="Login-RowItem" verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
+					<g:Label text="Password:" styleName="Login-Text"/>
+					<g:PasswordTextBox width="170px" height="20px" ui:field="TextBoxPassword"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_TOP" styleName="Login-Button">
+					<g:Button text="Enter" ui:field="ButtonEnter"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+					<g:Label ui:field="ErrorText" styleName="Login-Error" horizontalAlignment="ALIGN_CENTER" visible="false"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

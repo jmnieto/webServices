@@ -1,0 +1,205 @@
+/******************* Contenedor de toda la pantalla ****************************/
+.ContenedorPrincipal {
+	position 	: absolute;
+	
+	width		: 100%;
+/* 	height		: 100%; */
+	
+/* 	Importante para tener una ajuste automatica pero controlado */
+/* 	min-height	: 594px; */
+}
+
+/******************** Menu Principal de dominios *******************************/
+.MenuBar-Principal {
+	background	: url("images/menuBar.png") repeat-x scroll left top #4F8DBC;
+	border		: 1px solid #E0E0E0;
+	padding     : 1px;
+/* 	position	: static; */
+}
+
+/** Valores que influyen en todos los Item del menu**/
+.MenuBar-Principal-Item, .MenuBar-Principal-Profile{
+	border-radius: 5px 5px 5px 5px;
+ 	cursor	   : pointer;
+  	cursor	   : hand;
+	color      : white;
+	padding    : 8px 24px;
+    text-align : center;
+}
+
+/***********************POSICION*********************/
+/** Posicion de los distintos dominios del sistema **/
+.MenuBar-Logo {
+    float: left;
+    margin-left: 35px;
+}
+.MenuBar-LogoText {
+    float: left;
+	color: white;
+	margin-top: 12px;
+	padding-right: 50px;
+	font-size: small;
+	font-style: italic;
+	cursor: default;
+}
+
+.MenuBar-Principal-Item {
+	float : left;
+}
+
+/** Posicionamos el profile**/
+.MenuBar-Principal-Profile {
+    float: right;
+    height: 15px;
+    width: 140px;
+    font-weight: bold;
+}
+
+
+/* Ultimo item lo usaremos para hacer el clear y que el div contenga la tabla*/
+.Item-Separador {
+	clear : both;
+}
+
+
+/**********************EVENTOS*************************/
+
+/** Tramamos cuando se pase por encima de los item**/
+.MenuBar-Principal-Item-up-hovering {
+	background-color : #3B6B97; 
+}
+
+.MenuBar-Principal-Item-down, .MenuBar-Principal-Item-down-hovering {
+    background-color : #3B6B97;
+    font-weight		 : bold;
+}
+
+
+/********************************* ContenedorCuerpo Principal **************************************/
+.ContenedorCuerpo {
+	background-color : #EFEFEF;
+	
+	display			 : block;
+/* 	overflow 		 : hidden; */
+	
+	float			 : left;
+	width			 : 100%;
+/* 	padding-bottom   : 30px;  */
+/* 	height			 : 94%; */
+}
+
+/********************************* Panel de Menu **************************************/
+
+/** Panel de Menu Disclosure **/
+.ContenedorPanelMenu {
+/*     background-color: red; */
+/*     border-right	: 1px solid #C3C3C3; */
+    overflow		: hidden;
+    padding			: 0.5em 0 0 !important;
+	float 			: left;
+    margin-top		: 5px;
+    margin-left		: 5px;
+    width			: 14%;
+}
+
+.hidePanel {
+	display : none;
+}
+
+
+.PanelMenu-Item {
+	border-radius: 10px 0 0 10px;
+	font-size	: 13px;
+    font-weight	: bold;
+    line-height	: 18px;
+    padding		: 10px 18px;
+}
+
+
+/** Tramamos cuando se pase por encima de los item**/
+.PanelMenu-Item-up-hovering {
+	background-color: #c4d6e8;
+    cursor			: pointer;
+    cursor	   		: hand;
+    color			: #5889B5;
+    font-size		: 14px; 
+}
+
+.PanelMenu-Item-down, .PanelMenu-Item-down-hovering {
+    background-color: #517FAB;
+    color			: #FFFFFF;
+}
+
+
+
+/************************ BarraDesplazadora Oculta el panelMenu ******************************/
+.BarraDesplazadora, .BarraDesplazadora-mostrar   {
+	border-color : #517FAB;
+    border-style : none solid;
+    border-width : medium 1px;
+    cursor		 : pointer;
+    float		 : left;
+    height		 : 700px;
+    padding		 : 1.5px;
+    width		 : 0.7%;
+}
+
+.BarraDesplazadora {
+	background: url("images/hideArea.gif") no-repeat scroll 50% 50% #517FAB;
+}
+
+.BarraDesplazadora-mostrar {
+    background	: url("images/showArea.gif") no-repeat scroll 50% 50% #517FAB;
+    margin-left	: 3px; 
+}
+
+.BarraDesplazadora:HOVER, .BarraDesplazadora-mostrar:HOVER {
+    border-color : #517FAB;
+    border-width : 1px;
+    width		 : 1%;
+}
+
+/************************ Contenido variante por pagina ******************************/
+.Contenido, .Contenido-expandido {
+    background-color : #FFFFFF;
+    float			 : right;
+    
+   	margin-top		 : 5px;
+    margin-right	 : 3px;
+    min-height		 : 700px;
+	padding-bottom   : 10px;  
+}
+
+.Contenido {
+    width  : 84%;
+}
+
+.Contenido-expandido {
+    width  : 98.3%;
+}
+
+/*************************** Contenido resto de paginas *****************************/
+.PageContainer {
+	width: 100%;
+	height: 100%;
+}
+
+/*************************** Pie de pagina *****************************/
+.MenuPrincipal-PiePagina {
+	clear: both;
+	width: 100%;
+	padding-top: 10px;
+}
+
+.MenuPrincipal-PiePagina-Titulo {
+	float: left;
+	margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.MenuPrincipal-PiePagina-Autor {
+	float: right;
+	margin-bottom: 10px;
+    margin-right: 20px;
+}
+

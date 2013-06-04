@@ -1,0 +1,56 @@
+/*****************************Contenedor central contiene a todo los item de la pantalla ***********************/
+.Login-PageContainer {
+	background-color : #598BB7;
+	width			 : 100%;
+	height			 : 100%;
+}
+
+/*****************************Contenedor central contiene a todo los item de la pantalla ***********************/
+.Login-MainContainer {
+/* 	background-color : #598BB7; */
+	width: 100%;
+}
+
+/**************************** Titulo principal **************************************************************/
+.Login-TextTitle {
+    color: #598BB7;
+    float: left;
+    font-size: 47px;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 30px;
+    margin-left: 50px;
+    padding: 21px;
+    text-shadow: 1px 1px snow, -1px -2px powderblue;
+}
+
+
+/**************************** Contenedor e Items para el login**************************************************************/
+.Login-FormContainer {
+	margin: 10px 5px 5px;
+	padding: 10px 10px 10px 30px;
+	border: 7px solid #A0A0A0;
+	background-color: #F0F0F0;
+	border-radius: 10px 10px 10px 10px;
+	
+}
+
+.Login-Text {
+	font-weight: bold;
+}
+
+.Login-RowItem {
+	margin: 5px;
+	padding: 5px;
+}
+
+.Login-Button {
+	float: right;
+	margin : 2px;
+}
+
+.Login-Error {
+	color: red;
+	font-size: 11px;
+	font-style: italic;
+}

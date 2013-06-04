@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataBase driver="com.mysql.jdbc.Driver" name="webservice" protocol="mysql">
+    <connection url="wuidl.noip.org" port="3306"/>
+    <credentials user="webserver" password="eUtH87u4PsPYrz2H"/>
+</dataBase>
