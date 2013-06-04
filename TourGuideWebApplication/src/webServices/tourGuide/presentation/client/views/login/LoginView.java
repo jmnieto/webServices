@@ -19,6 +19,7 @@ public class LoginView extends Composite implements LoginPresenter.Display{
 	@UiField TextBox TextBoxUserName;
 	@UiField PasswordTextBox TextBoxPassword;
 	@UiField Button ButtonEnter;
+	@UiField Button ButtonRegister;
 	@UiField Label ErrorText;
 	
 	private final String defaultErrorText = "The username or password you entered is incorrect.";
@@ -52,6 +53,11 @@ public class LoginView extends Composite implements LoginPresenter.Display{
 	public HasClickHandlers getEnter() {
 		return ButtonEnter;
 	}
+	
+	@Override
+	public HasClickHandlers getRegister() {
+		return ButtonRegister;
+	}
 
 	@Override
 	public void setVisibleError(boolean visible) {
@@ -71,11 +77,5 @@ public class LoginView extends Composite implements LoginPresenter.Display{
 		setVisibleError(false);
 	}
 
-	
-	
-	
-	
-	
-	
 
 }

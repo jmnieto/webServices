@@ -7,16 +7,17 @@
 				<g:Label text="Tour Guide Application" styleName="Login-TextTitle"/>
 			</g:FlowPanel>
 			<g:VerticalPanel styleName="Login-FormContainer" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+				<g:Label text="Login" styleName="Login-header-titulo" width="187px"/>
+				<g:Label text="Find every place around you" styleName="Login-header-span"/>
 				<g:HorizontalPanel styleName="Login-RowItem" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
-					<g:Label text="Username:" styleName="Login-Text"/>
-					<g:TextBox focus="false" width="170px" height="20px" ui:field="TextBoxUserName"/>
+					<g:TextBox focus="false" width="170px" height="20px" ui:field="TextBoxUserName" styleName="Login-Input" name="username" text="Username"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel styleName="Login-RowItem" verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
-					<g:Label text="Password:" styleName="Login-Text"/>
-					<g:PasswordTextBox width="170px" height="20px" ui:field="TextBoxPassword"/>
+					<g:PasswordTextBox width="170px" height="20px" ui:field="TextBoxPassword" styleName="Login-Input" text="Password"/>
 				</g:HorizontalPanel>
-				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT" verticalAlignment="ALIGN_TOP" styleName="Login-Button">
-					<g:Button text="Enter" ui:field="ButtonEnter"/>
+				<g:HorizontalPanel styleName="Login-Footer" width="300px">
+					<g:Button text="Register" ui:field="ButtonRegister" styleName="Login-Footer-register"/>
+					<g:Button text="Enter" ui:field="ButtonEnter" styleName="Login-Footer-button"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
 					<g:Label ui:field="ErrorText" styleName="Login-Error" horizontalAlignment="ALIGN_CENTER" visible="false"/>

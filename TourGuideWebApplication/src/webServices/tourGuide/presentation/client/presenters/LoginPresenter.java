@@ -25,6 +25,7 @@ public class LoginPresenter extends Presenter{
 		
 		//Button
 		public HasClickHandlers getEnter();
+		public HasClickHandlers getRegister();
 		
 		// Error
 		public void				setVisibleError(boolean visible);
@@ -96,4 +97,38 @@ public class LoginPresenter extends Presenter{
 			}
 		}
 	};
+	
+//////////////////////////////Register button///////////////////////////////
+ClickHandler register = new ClickHandler() {
+
+@Override
+public void onClick(ClickEvent event) {
+
+view.setVisibleError(false);
+
+if(view.getUsername().isEmpty() || view.getPassword().isEmpty()){
+view.setVisibleError(true);
+view.focusUsername();
+}else{
+eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+//usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
+//
+//@Override
+//public void onSuccess(ResponseLoginDTO result) {
+//if(result.isLoginSuccessful()){
+//	eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+//}else{
+//	view.setVisibleError(true, result.getMessage());
+//	view.focusUsername();
+//}
+//}
+//
+//@Override
+//public void onFailure(Throwable caught) {
+//view.setVisibleError(true, caught.getMessage());
+//}
+//});
+}
+}
+};
 }
