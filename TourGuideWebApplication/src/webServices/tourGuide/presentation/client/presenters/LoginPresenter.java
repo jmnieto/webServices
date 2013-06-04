@@ -48,6 +48,7 @@ public class LoginPresenter extends Presenter{
 	@Override
 	public void init() {
 		addHandlerRegistration(view.getEnter().addClickHandler(enter));
+		addHandlerRegistration(view.getRegister().addClickHandler(register));
 	}
 
 
