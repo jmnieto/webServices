@@ -32,7 +32,7 @@ public class LocationRestService {
 	 * @return the location
 	 */
 	@GET
-	@Path("getLocation/{name}")
+	@Path("get/{name}")
 	@Consumes("text/plain")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Location fetchLocation(@PathParam("name") String name) {
@@ -47,7 +47,7 @@ public class LocationRestService {
 	 *            the l
 	 */
 	@POST
-	@Path("addToDb")
+	@Path("add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void addLocation(Location l) {
 		LocationAccessor lA = LocationAccessor.getLocationAccessor();
@@ -61,7 +61,7 @@ public class LocationRestService {
 	 *            the l
 	 */
 	@POST
-	@Path("deleteFromDb")
+	@Path("delete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void deleteLocation(Location l) {
 		LocationAccessor lA = LocationAccessor.getLocationAccessor();
@@ -75,7 +75,7 @@ public class LocationRestService {
 	 *            the l
 	 */
 	@POST
-	@Path("deleteByLocationByName")
+	@Path("deleteName")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void deleteLocation(String l) {
 		LocationAccessor lA = LocationAccessor.getLocationAccessor();
