@@ -74,7 +74,7 @@ public class TourGuideController extends AppController implements ValueChangeHan
 					break;
 				case Map:
 					goMap();
-				//	break;
+					break;
 				default:
 					//TODO ERROR Screen
 					break;
@@ -134,10 +134,11 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			public void onSuccess() {
 				// Carga de la pantalla principal...
 				if (mapDisplay == null) {
-					//mapDisplay = new MapView();
+					mapDisplay = new MapView();
 		        }
 				
-				setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getCentralPanel());
+				//setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getPanelContainer());
+				setPresenterActive(new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget());
 			}
 			
 			@Override

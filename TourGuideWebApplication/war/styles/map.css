@@ -1,0 +1,27 @@
+.Map-ContainerPanel {
+	position 	: absolute;
+	
+	width		: 100%;
+}
+
+.Map-MapPanel {
+	background-color : #FFFFFF;
+    float			 : left;
+    
+   	margin-top		 : 5px;
+    margin-right	 : 3px;
+    min-height		 : 500px;
+    width			 : 500px;
+	padding-bottom   : 10px;  
+}
+
+.Map-PlacesPanel {
+	background-color : #FFFFFF;
+    float			 : right;
+    
+   	margin-top		 : 5px;
+    margin-right	 : 3px;
+    min-height		 : 500px;
+    width			 : 300px;
+	padding-bottom   : 10px;  
+}

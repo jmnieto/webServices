@@ -1,11 +1,16 @@
 package webServices.tourGuide.presentation.client.presenters;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import webServices.tourGuide.presentation.client.events.NavigationEvent;
 import webServices.tourGuide.presentation.client.presenters.prototype.Presenter;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.maps.client.MapWidget;
+import com.google.gwt.maps.client.geom.LatLng;
+import com.google.gwt.maps.client.overlay.Icon;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -14,17 +19,33 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 //MAPS
-import com.google.gwt.maps.client.InfoWindowContent;
-import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.Maps;
-import com.google.gwt.maps.client.control.LargeMapControl;
-import com.google.gwt.maps.client.geom.LatLng;
-import com.google.gwt.maps.client.geom.Point;
-import com.google.gwt.maps.client.geom.Size;
-import com.google.gwt.maps.client.overlay.Icon;
-import com.google.gwt.maps.client.overlay.Marker;
+//TABLE
 
 public class PrincipalPresenter extends Presenter{
+	
+	//Class to store all the points info.
+	public class InterestPoint{
+		private LatLng _point;
+		private String _name;
+		private String _info;
+		
+		public InterestPoint(LatLng point, String name, String info){
+			this._point = point;
+			this._info = info;
+			this._name = name;
+		}
+		
+		public LatLng getPoint(){
+			return this._point;
+		}
+		public String getName(){
+			return this._name;
+		}
+		public String getInfo(){
+			return this._info;
+		}
+	}
+	
 	
 	public interface Display{
 		public Widget 				asWidget();
@@ -55,11 +76,10 @@ public class PrincipalPresenter extends Presenter{
 		public void clear();
 		
 		
-		//MAPS ON
-		
+		//MAP
 		public Panel getPanelMap();
-		
-		//MAPS OFF
+		//TABLE PLACES
+		public Panel getPanelPlaces();
 	}
 	
 	private HandlerManager 	eventBus;
@@ -70,6 +90,11 @@ public class PrincipalPresenter extends Presenter{
 	private LatLng 			initialLocate;
 	private Icon			baseIcon;
 	List<LatLng>			interestPoints; //List of places to mark
+	List<String>			interestInfo; //List of info from places to mark
+	List<InterestPoint>     intPoints; //List of InterestPoints.
+	
+	//TABLE VARIABLES
+	private String placeName;
 	
 //	Mensajes de Item optionviewAllopinion
 	private final String DISABLE_OPTION = "Disable all opinion";
@@ -89,6 +114,9 @@ public class PrincipalPresenter extends Presenter{
 		
 		this.eventBus  			  = eventBus;
 		this.view	   			  = view;
+		this.interestPoints		  = new ArrayList<LatLng>();
+		this.interestInfo		  = new ArrayList<String>();
+		this.intPoints			  = new ArrayList<InterestPoint>();
 		//this.resources 			  = resources;
 		//this.users	   			  = users;
 		//this.core				  = core;
@@ -98,12 +126,78 @@ public class PrincipalPresenter extends Presenter{
 	@Override
 	public void init() {
 		
+		
 		//Load Map
-		initialLocate = LatLng.newInstance(37.4419, -122.1419);
+		
+		
+		/*TEST*/
+		//interestPoints.add(LatLng.newInstance(37.4419, -122.1419));
+		//interestInfo.add("Palo alto lo peta. Asi que ven a verlo.");
+		/*InterestPoint pt = new InterestPoint(LatLng.newInstance(37.4419, -122.1419),"Sitio A","Palo alto lo peta. Asi que ven a verlo.");
+		intPoints.add(pt);
+		InterestPoint pt2 = new InterestPoint(LatLng.newInstance(38.4419, -122.1419),"Sitio B","Sabes que me comia ahora?s.");
+		intPoints.add(pt2);*/
+		/*TEST END*/
+		
+		/*MAP*/
+		//We should get this initial location from the server.
+		/*initialLocate = LatLng.newInstance(37.4419, -122.1419);
+		//Load the map with the localization.
 		loadMap(initialLocate);
-		view.getPanelMap().add(map);
+		//Print the markers around you
+		//printPlaces(interestPoints, interestInfo);
+		printPlaces (intPoints);
+		//view the final map
+		//view.getPanelMap().add(map);
+		/*MAP END*/
 		
-		
+		/*TABLE*/
+	   /* CellTable<InterestPoint> table = new CellTable<InterestPoint>();
+	    //table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+	    
+	    // Add a text column to show the name.
+	    TextColumn<InterestPoint> nameColumn = new TextColumn<InterestPoint>() {
+	      @Override
+	      public String getValue(InterestPoint object) {
+	        return object.getName();
+	      }
+	    };
+	    table.addColumn(nameColumn, "Place Name");
+	    
+	    // Add a text column to show the name.
+	    TextColumn<InterestPoint> infoColumn = new TextColumn<InterestPoint>() {
+	      @Override
+	      public String getValue(InterestPoint object) {
+	        return object.getInfo();
+	      }
+	    };
+	    table.addColumn(infoColumn, "Information");
+	    
+	    // Add a selection model to handle user selection.
+	    final SingleSelectionModel<InterestPoint> selectionModel = new SingleSelectionModel<InterestPoint>();
+	    table.setSelectionModel(selectionModel);
+	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+	      public void onSelectionChange(SelectionChangeEvent event) {
+	        InterestPoint selected = selectionModel.getSelectedObject();
+	        if (selected != null) {
+	          Window.alert("You selected: " + selected.getInfo());
+	        }
+	      }
+	    });
+	    
+	 // Set the total row count. This isn't strictly necessary, but it affects
+	    // paging calculations, so its good habit to keep the row count up to date.
+	    table.setRowCount(intPoints.size(), true);
+
+	    // Push the data into the widget.
+	    table.setRowData(0, intPoints);
+
+	    // Add it to the root panel.
+	    view.getPanelMap().add(table);*/
+	    
+		/*TABLE END*/
+	    
+	    
 		/* Cargamos los dominios disponibles */
 		//loadDomain();
 		
@@ -112,10 +206,13 @@ public class PrincipalPresenter extends Presenter{
 		
 		/* Funciones del sistema */
 		//addClickHandler(view.getOpinions(), 	opinions);
+		
 	}
 
 	@Override
-	public void start() {}
+	public void start() {
+		eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map));
+	}
 	
 	@Override
 	public void refresh() {
@@ -136,7 +233,7 @@ public class PrincipalPresenter extends Presenter{
 	
 	
 	/****MAPS ON*****/
-	private void loadMap(LatLng point) {
+	/*private void loadMap(LatLng point) {
 	    map = new MapWidget(point, 13);
 	    map.setSize("500px", "500px");
 	    map.setUIToDefault();
@@ -153,9 +250,39 @@ public class PrincipalPresenter extends Presenter{
 	    // baseIcon.setInfoShadowAnchor(new GPoint(18, 25));
 	  }	
 	
-	private void printPlaces(){
+	private Marker createMarker(LatLng point, final String infoMarker, int index) {
+	    // Create a lettered icon for this point using our icon class
+	    final char letter = (char) ('A' + index);
+	    Icon icon = Icon.newInstance(baseIcon);
+	    icon.setImageURL("http://www.google.com/mapfiles/marker" + letter + ".png");
+	    MarkerOptions options = MarkerOptions.newInstance();
+	    options.setIcon(icon);
+	    final Marker marker = new Marker(point, options);
+
+	    marker.addMarkerClickHandler(new MarkerClickHandler() {
+
+	      public void onClick(MarkerClickEvent event) {
+	        InfoWindow info = map.getInfoWindow();
+	        info.open(event.getSender(), new InfoWindowContent(infoMarker));
+	      }
+
+	    });
+
+	    return marker;
+	  }
+	
+	//private void printPlaces(List<LatLng> points, List<String> info){
+	private void printPlaces(List<InterestPoint> points){
+		map.clearOverlays();
 		
-	}
+		//Add markers to the map at location in points
+		for(int i = 0; i < points.size(); i++){
+			LatLng point = points.get(i).getPoint();
+			String infoMarker = points.get(i).getInfo();
+			map.addOverlay(createMarker(point, infoMarker, i));
+		}
+		
+	}*/
 	/****MAPS OFF****/
 	
 	

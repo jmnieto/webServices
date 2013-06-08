@@ -4,7 +4,7 @@
 	
 	<g:HTMLPanel styleName="ContenedorPrincipal">
 		<g:FlowPanel 		styleName="MenuBar-Principal" ui:field="MenuBar">
-			<g:Image 		styleName="MenuBar-Logo" url="style/images/foot.png" width="" height=""/>
+			<g:Image 		styleName="MenuBar-Logo" url="styles/images/foot.png" width="" height=""/>
 			<g:Label 		styleName="MenuBar-LogoText" text="TourGuide"/>
 			<g:Label 		styleName="MenuBar-LogoText" text="Where am I?"/>
 			<g:Label 		styleName="MenuBar-LogoText" text="My places"/>
@@ -12,7 +12,7 @@
 		</g:FlowPanel>
 		<g:FlowPanel styleName="ContenedorCuerpo">
 			<g:FlowPanel styleName="Contenido" ui:field="CentralPanel"/>
-			<g:FlowPanel styleName="MenuPrincipal-PiePagina">
+			<g:FlowPanel styleName="MenuPrincipal-PiePagina" ui:field="ListPanel">
 			<g:Label text="Taxonomy-based Opinion Extraction System v.1.0" styleName="MenuPrincipal-PiePagina-Titulo"/>
 			<g:Label text="Juan Manuel Nieto Moreno (jmnieto@us.es)" styleName="MenuPrincipal-PiePagina-Autor"/>
 			<g:FormPanel styleName="MenuPrincipal-DownloadForm" ui:field="formDownload" visible="false"/>

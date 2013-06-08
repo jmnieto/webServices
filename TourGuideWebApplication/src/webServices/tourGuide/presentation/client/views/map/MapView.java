@@ -16,7 +16,8 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
-
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 //MAPS
 
 
@@ -26,9 +27,9 @@ public class MapView extends Composite implements MapPresenter.Display{
 	private static final String UPLOAD_ACTION_URL = GWT.getModuleBaseURL() + "DownloadLog";
 	
 	private static MapViewUiBinder uiBinder = GWT.create(MapViewUiBinder.class);
-	@UiField FlowPanel MenuBar;
-	@UiField FlowPanel CentralPanel;
-	@UiField FormPanel formDownload;
+	@UiField HorizontalPanel MapPanel;
+	@UiField HorizontalPanel PlacesPanel;
+	@UiField HTMLPanel ContainerPanel;
 	
 
 	// dominio About;
@@ -44,16 +45,9 @@ public class MapView extends Composite implements MapPresenter.Display{
 
 	public MapView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		downloadForm();
+
 	}
-	
-	private void downloadForm() {
-		// Propiedades de envio del Form.
-		formDownload.setAction(UPLOAD_ACTION_URL);
-		formDownload.setEncoding(FormPanel.ENCODING_MULTIPART);
-		formDownload.setMethod(FormPanel.METHOD_POST);
-	}
+
 	
 	@Override
 	public Widget asWidget(){
@@ -61,11 +55,6 @@ public class MapView extends Composite implements MapPresenter.Display{
 	}
 
 	
-	@Override
-	public void addProfile(MenuBar userProfile) {
-		this.userProfile = userProfile;
-		MenuBar.insert(userProfile, MenuBar.getWidgetCount()-1);
-	}
 	
 	@Override
 	public HasClickHandlers getDomainAbout() {
@@ -77,10 +66,6 @@ public class MapView extends Composite implements MapPresenter.Display{
 		return domains;
 	}
 
-	@Override
-	public Panel getCentralPanel() {
-		return CentralPanel;
-	}
 
 //	@Override
 //	public HasClickHandlers getComparatives() {
@@ -102,28 +87,16 @@ public class MapView extends Composite implements MapPresenter.Display{
 		
 		// eliminamos todos los dominios.
 		for(Widget w : domains){
-			MenuBar.remove(w);
+			//MenuBar.remove(w);
 		}
 		
 		
 		// eliminamos el profile si no es nulo
 		if(userProfile != null){
-			MenuBar.remove(userProfile);
+			//MenuBar.remove(userProfile);
 		}
 
 		// eliminamos la funcion de uploadConfig
-	}
-
-	@Override
-	public FormPanel downloadPanel() {
-		return formDownload;
-	}
-
-	@Override
-	public void addItem(ToggleButton item) {
-		MenuBar.insert(item, MenuBar.getWidgetCount()-1);
-		domains.add(item);
-		
 	}
 
 	@Override
@@ -143,8 +116,47 @@ public class MapView extends Composite implements MapPresenter.Display{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	
+	@Override
+	public Panel getPanelMap() {
+		// TODO Auto-generated method stub
+		return MapPanel;
+	}
+
+	@Override
+	public Panel getPanelPlaces() {
+		// TODO Auto-generated method stub
+		return PlacesPanel;
+	}
+
+	@Override
+	public void addItem(ToggleButton item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void addProfile(MenuBar userProfile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public FormPanel downloadPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Panel getPanelContainer() {
+		// TODO Auto-generated method stub
+		return ContainerPanel;
+	}
+
+
 
 
 }

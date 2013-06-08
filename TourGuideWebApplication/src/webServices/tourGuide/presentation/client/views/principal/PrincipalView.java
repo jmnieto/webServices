@@ -23,6 +23,7 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 	@UiField FlowPanel MenuBar;
 	@UiField FlowPanel CentralPanel;
 	@UiField FormPanel formDownload;
+	@UiField FlowPanel ListPanel;
 	
 
 	// dominio About;
@@ -143,6 +144,13 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 		// TODO Auto-generated method stub
 		return CentralPanel;
 	}
+
+	@Override
+	public Panel getPanelPlaces() {
+		// TODO Auto-generated method stub
+		return ListPanel;
+	}
+
 
 	
 

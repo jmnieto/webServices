@@ -130,52 +130,12 @@
     color			: #FFFFFF;
 }
 
-
-
-/************************ BarraDesplazadora Oculta el panelMenu ******************************/
-.BarraDesplazadora, .BarraDesplazadora-mostrar   {
-	border-color : #517FAB;
-    border-style : none solid;
-    border-width : medium 1px;
-    cursor		 : pointer;
-    float		 : left;
-    height		 : 700px;
-    padding		 : 1.5px;
-    width		 : 0.7%;
-}
-
-.BarraDesplazadora {
-	background: url("images/hideArea.gif") no-repeat scroll 50% 50% #517FAB;
-}
-
-.BarraDesplazadora-mostrar {
-    background	: url("images/showArea.gif") no-repeat scroll 50% 50% #517FAB;
-    margin-left	: 3px; 
-}
-
-.BarraDesplazadora:HOVER, .BarraDesplazadora-mostrar:HOVER {
-    border-color : #517FAB;
-    border-width : 1px;
-    width		 : 1%;
-}
-
-/************************ Contenido variante por pagina ******************************/
-.Contenido, .Contenido-expandido {
+.Contenido {
     background-color : #FFFFFF;
-    float			 : right;
-    
    	margin-top		 : 5px;
     margin-right	 : 3px;
     min-height		 : 700px;
 	padding-bottom   : 10px;  
-}
-
-.Contenido {
-    width  : 84%;
-}
-
-.Contenido-expandido {
-    width  : 98.3%;
 }
 
 /*************************** Contenido resto de paginas *****************************/
