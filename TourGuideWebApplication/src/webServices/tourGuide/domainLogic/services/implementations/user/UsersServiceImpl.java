@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import webServices.tourGuide.domainLogic.model.user.Attribute;
 import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
@@ -27,17 +24,17 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	private static final long serialVersionUID = -1143464717952842548L;
 
 	// logger
-	final Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
+	//final Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 	
 	private IResourcesUsers usersManager;
 	
 	public void init(){
-		logger.info("Initialising the user management service...");
+		//logger.info("Initialising the user management service...");
 		
 		//It has to be changed to a REST consumer
 		usersManager = (IResourcesUsers) new UserAdministration();
 		
-		logger.info("The user management service was successfully initialised.");
+		//logger.info("The user management service was successfully initialised.");
 	}
 	
 	@Override
@@ -58,7 +55,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 				return result;
 			}
 		} catch (Exception e) {
-			logger.error("Error in login for user {} : {} ", new Object[]{name,e.getMessage()});
+			////logger.error("Error in login for user {} : {} ", new Object[]{name,e.getMessage()});
 			throw new IllegalStateException("Error in login.");
 		}
 		
@@ -99,7 +96,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 				throw new IllegalArgumentException("It was impossible to find the user.");
 			}
 		} catch (Exception e) {
-			logger.error("Error in logout: ", e);
+			//logger.error("Error in logout: ", e);
 			throw new IllegalStateException("Error in logout.");
 		}
 		
@@ -130,7 +127,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 					removeAttributeSession();
 				}
 			} catch (Exception e) {
-				logger.error("Error in logout: " + e.getMessage());
+				//logger.error("Error in logout: " + e.getMessage());
 				throw new IllegalStateException("Error in logout.");
 			}
 			
@@ -161,7 +158,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 					removeAttributeSession();
 				}
 			} catch (Exception e) {
-				logger.error("Error in logout: ", e);
+				//logger.error("Error in logout: ", e);
 				throw new IllegalStateException("Error in logout.");
 			}
 			
@@ -175,7 +172,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		try {
 			usersManager.synchronizeUser(user);
 		} catch (Exception e) {
-			logger.error("Error change state :", e);
+			//logger.error("Error change state :", e);
 			throw new IllegalStateException("Error in logout.");
 		}
 	}
@@ -192,7 +189,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		try {
 			result = usersManager.existUser(name);
 		} catch (Exception e) {
-			logger.error("Error checking for user :", e);
+			//logger.error("Error checking for user :", e);
 			throw new IllegalStateException("Error existUser.");
 		}
 		
@@ -203,23 +200,23 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	public ResponseDTO addUser(String name, String pass, String passConfir, String role) {
 		if(name == null || name.isEmpty() || pass == null || pass.isEmpty() ||
 		   passConfir == null || passConfir.isEmpty() || role == null || role.isEmpty() ){
-			logger.error("Se intento almacenar un usuario con los parametros erroneos.");
+			//logger.error("Se intento almacenar un usuario con los parametros erroneos.");
 			throw new IllegalArgumentException("Parametros nulos o vacios.");
 		}
 		
 		if(pass != passConfir){
-			logger.error("Se intento insertar un usuario con el password y la confirmacion distintos.");
+			//logger.error("Se intento insertar un usuario con el password y la confirmacion distintos.");
 			throw new IllegalArgumentException("El password y su confirmacion no coinciden.");
 		}
 		
 		ResponseDTO response = new ResponseDTO(true);
 		
-		logger.info("Anyadiendo un nuevo usuario con username:" + name);
+		//logger.info("Anyadiendo un nuevo usuario con username:" + name);
 		
-		logger.trace("Creando el atriburo especifico...");
+		//logger.trace("Creando el atriburo especifico...");
 		Attribute atri = new Attribute("ShowAllOpinions", "true");
 		
-		logger.trace("Creando usuario con atributo...");
+		//logger.trace("Creando usuario con atributo...");
 		User user = new User(name, pass, RoleUser.valueOf(role));
 		user.getAttibutes().add(atri);
 		
@@ -254,7 +251,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			setAttributeSession(userDTO);
 			
 		} catch (Exception e) {
-			logger.error("Error change name user :", e);
+			//logger.error("Error change name user :", e);
 			throw new IllegalStateException("Error changing name.");
 		}
 	}
@@ -280,7 +277,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			usersManager.setPassword(user, newPass);
 			
 		} catch (Exception e) {
-			logger.error("Error change password user :" + e.getMessage());
+			//logger.error("Error change password user :" + e.getMessage());
 			throw new IllegalStateException("Error changing password.");
 		}
 		
@@ -291,29 +288,29 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		UserDTO userDto = getUserConnected();
 		
 		if(userDto == null){
-			logger.error("No se encontro nigun usuario en las Cookies.");
+			//logger.error("No se encontro nigun usuario en las Cookies.");
 			throw new IllegalArgumentException("No se encontro ningun usuario conectado.");
 		}
 		
-		logger.trace("Recuperando el usuario del sistema.");
+		//logger.trace("Recuperando el usuario del sistema.");
 		User user = usersManager.getUser(userDto.getName());
 		
 		if(user == null){
-			logger.error("No existe ningun usuario con el nombre: " + userDto.getName());
+			//logger.error("No existe ningun usuario con el nombre: " + userDto.getName());
 			throw new IllegalArgumentException("No se encontro ningun usuario registrado en el sistema con el nombre:" + userDto.getName());
 		}
 		
-		logger.trace("Estrableciendo atributo de showAllOpinions.");
+		//logger.trace("Estrableciendo atributo de showAllOpinions.");
 		for(Attribute attri : user.getAttibutes()){
 			if(attri.getName().equals("ShowAllOpinions")){
 				attri.setValue(Boolean.toString(allOpinions));
 			}
 		}
 		
-		logger.trace("Sincronizando usuario.");
+		//logger.trace("Sincronizando usuario.");
 		usersManager.synchronizeUser(user);
 		
-		logger.trace("Estableciendo nueva cookie.");
+		//logger.trace("Estableciendo nueva cookie.");
 		userDto.setOpinionView(allOpinions);
 		removeAttributeSession();
 		setAttributeSession(userDto);
@@ -322,14 +319,14 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	@Override
 	public void deleteUser(String name) {
 		if(name == null || name.isEmpty()){
-			logger.error("Se intento eliminar un nulo.");
+			//logger.error("Se intento eliminar un nulo.");
 			throw new IllegalArgumentException("Parametros introducidos nulos.");
 		}
 		
 		User user = usersManager.getUser(name);
 		
 		if(user == null){
-			logger.error("Se intento borrar un usuario que no existe.");
+			//logger.error("Se intento borrar un usuario que no existe.");
 			throw new IllegalArgumentException("Nombre de usuario introducido invalido.");
 		}
 		
@@ -343,12 +340,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 
 	@Override
 	public List<UserDTO> getUsers() {
-		logger.trace("Obteniendo los usuarios del sistema.");
+		//logger.trace("Obteniendo los usuarios del sistema.");
 		List<UserDTO> result = new ArrayList<UserDTO>();
 		UserDTO userConected = getUserConnected();
 		
 		if(userConected == null){
-//			logger.trace("No se encontro la variable del usuario.");
+//			//logger.trace("No se encontro la variable del usuario.");
 			throw new IllegalStateException("No encontro ningun usuario conectado.");
 		}
 		

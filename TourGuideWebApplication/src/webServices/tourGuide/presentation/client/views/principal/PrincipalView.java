@@ -138,6 +138,12 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 		return null;
 	}
 
+	@Override
+	public Panel getPanelMap() {
+		// TODO Auto-generated method stub
+		return CentralPanel;
+	}
+
 	
 
 

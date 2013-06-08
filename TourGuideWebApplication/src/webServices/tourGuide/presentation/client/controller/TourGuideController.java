@@ -6,9 +6,11 @@ import webServices.tourGuide.presentation.client.controller.prototype.AppControl
 import webServices.tourGuide.presentation.client.events.NavigationEvent;
 import webServices.tourGuide.presentation.client.events.NavigationEventHandler;
 import webServices.tourGuide.presentation.client.presenters.LoginPresenter;
+import webServices.tourGuide.presentation.client.presenters.MapPresenter;
 import webServices.tourGuide.presentation.client.presenters.PrincipalPresenter;
 import webServices.tourGuide.presentation.client.views.login.LoginView;
 import webServices.tourGuide.presentation.client.views.principal.PrincipalView;
+import webServices.tourGuide.presentation.client.views.map.MapView;
 import webServices.tourGuide.presentation.dataTransferObjects.UserDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -23,6 +25,7 @@ public class TourGuideController extends AppController implements ValueChangeHan
 	
 	private LoginPresenter.Display loginDisplay;
 	private PrincipalPresenter.Display principalDisplay;
+	private MapPresenter.Display mapDisplay;
 	
 	public TourGuideController(){
 		//Establecemos el item principal
@@ -69,8 +72,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 				case Principal:
 					goPrincipal();
 					break;
-				//case About:
-				//	goAbout();
+				case Map:
+					goMap();
 				//	break;
 				default:
 					//TODO ERROR Screen
@@ -115,6 +118,26 @@ public class TourGuideController extends AppController implements ValueChangeHan
 		        }
 				
 				setPrincipal( new PrincipalPresenter(getEventBus(), principalDisplay), principalDisplay.asWidget(), principalDisplay.getCentralPanel());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				//TODO pantalla de error.
+			}
+		});
+	}
+	
+	private void goMap() {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				// Carga de la pantalla principal...
+				if (mapDisplay == null) {
+					//mapDisplay = new MapView();
+		        }
+				
+				setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getCentralPanel());
 			}
 			
 			@Override

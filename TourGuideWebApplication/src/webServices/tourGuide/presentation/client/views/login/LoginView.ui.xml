@@ -22,7 +22,7 @@
 				<g:HorizontalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
 					<g:Label ui:field="ErrorText" styleName="Login-Error" horizontalAlignment="ALIGN_CENTER" visible="false"/>
 				</g:HorizontalPanel>
-			</g:VerticalPanel>
+		</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -7,6 +7,12 @@ public class NavigationEvent extends GwtEvent<NavigationEventHandler>{
 	public enum Navigation{
 		Login,
 		Principal,
+		Map,
+		Register,
+		//Error,
+		//About,
+		//MyPlaces,
+		//configuration,
 	}
 	
 	public static Type<NavigationEventHandler> TYPE = new Type<NavigationEventHandler>();

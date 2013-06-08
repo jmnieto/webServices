@@ -13,6 +13,16 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+//MAPS
+import com.google.gwt.maps.client.InfoWindowContent;
+import com.google.gwt.maps.client.MapWidget;
+import com.google.gwt.maps.client.Maps;
+import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.geom.LatLng;
+import com.google.gwt.maps.client.geom.Point;
+import com.google.gwt.maps.client.geom.Size;
+import com.google.gwt.maps.client.overlay.Icon;
+import com.google.gwt.maps.client.overlay.Marker;
 
 public class PrincipalPresenter extends Presenter{
 	
@@ -43,10 +53,23 @@ public class PrincipalPresenter extends Presenter{
 		public FormPanel 			downloadPanel();
 		
 		public void clear();
+		
+		
+		//MAPS ON
+		
+		public Panel getPanelMap();
+		
+		//MAPS OFF
 	}
 	
 	private HandlerManager 	eventBus;
 	private Display 		view;
+	
+	//MAPS VARIABLES
+	private MapWidget       map;
+	private LatLng 			initialLocate;
+	private Icon			baseIcon;
+	List<LatLng>			interestPoints; //List of places to mark
 	
 //	Mensajes de Item optionviewAllopinion
 	private final String DISABLE_OPTION = "Disable all opinion";
@@ -74,6 +97,13 @@ public class PrincipalPresenter extends Presenter{
 	
 	@Override
 	public void init() {
+		
+		//Load Map
+		initialLocate = LatLng.newInstance(37.4419, -122.1419);
+		loadMap(initialLocate);
+		view.getPanelMap().add(map);
+		
+		
 		/* Cargamos los dominios disponibles */
 		//loadDomain();
 		
@@ -103,6 +133,30 @@ public class PrincipalPresenter extends Presenter{
 	public void finish() {
 		view.clear();
 	}
+	
+	
+	/****MAPS ON*****/
+	private void loadMap(LatLng point) {
+	    map = new MapWidget(point, 13);
+	    map.setSize("500px", "500px");
+	    map.setUIToDefault();
+
+	    // Create a base icon for all of our markers that specifies the
+	    // shadow, icon dimensions, etc.
+	    baseIcon = Icon.newInstance();
+	    baseIcon.setShadowURL("http://www.google.com/mapfiles/shadow50.png");
+	    baseIcon.setIconSize(Size.newInstance(20, 34));
+	    baseIcon.setShadowSize(Size.newInstance(37, 34));
+	    baseIcon.setIconAnchor(Point.newInstance(9, 34));
+	    baseIcon.setInfoWindowAnchor(Point.newInstance(9, 2));
+	    // TOOD(sgross): undocumented?
+	    // baseIcon.setInfoShadowAnchor(new GPoint(18, 25));
+	  }	
+	
+	private void printPlaces(){
+		
+	}
+	/****MAPS OFF****/
 	
 	
 	/************************ Dominios *************************/
