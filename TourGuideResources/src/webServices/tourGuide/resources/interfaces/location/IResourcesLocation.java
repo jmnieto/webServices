@@ -98,6 +98,6 @@ public interface IResourcesLocation {
      * @return true if the deleteLocation was successful or false in the other
      *         case
      */
-    public void deleteLocationByUserId(String idUser);
+    public void deleteLocationByUserId(String idUser, List<Location> loc);
 
 }

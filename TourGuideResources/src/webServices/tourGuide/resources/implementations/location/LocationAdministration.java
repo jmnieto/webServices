@@ -117,7 +117,7 @@ public class LocationAdministration implements IResourcesLocation {
     }
 
     @Override
-    public void deleteLocationByUserId(String idUser) {
+    public void deleteLocationByUserId(String idUser, List<Location> loc) {
 	LocationAccessor la = LocationAccessor.getLocationAccessor();
 	la.deleteLocationByUser(idUser);
     }
