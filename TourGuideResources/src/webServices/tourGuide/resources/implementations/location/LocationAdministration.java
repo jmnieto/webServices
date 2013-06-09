@@ -17,86 +17,90 @@ import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
  */
 public class LocationAdministration implements IResourcesLocation {
 
-	private static LocationAdministration instance;
+    private static LocationAdministration instance;
 
-	private LocationAdministration() {
+    private LocationAdministration() {
+    }
+
+    public static LocationAdministration getInstance() {
+	if (instance == null) {
+	    instance = new LocationAdministration();
 	}
+	return instance;
+    }
 
-	public static LocationAdministration getInstance() {
-		if (instance == null) {
-			instance = new LocationAdministration();
-		}
-		return instance;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * users.resourcesLayer.IResourcesLocation#addLocation(users.domainLogic
+     * .business.Location)
+     */
+    @Override
+    public Location addLocation(Location loc, String userId) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.saveLocation(loc, userId);
+	return loc;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * users.resourcesLayer.IResourcesLocation#addLocation(users.domainLogic
-	 * .business.Location)
-	 */
-	public Location addLocation(Location loc) {
-		LocationAccessor la = LocationAccessor.getLocationAccessor();
-		la.saveLocation(loc);
-		return loc;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * users.resourcesLayer.IResourcesLocation#addLocation(java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Location addLocation(String name, String lat, String lng,
+	    String link, String description, String userId) {
+	Location loc = new Location();
+	loc.setName(name);
+	loc.setLat(lat);
+	loc.setLng(lng);
+	loc.setLink(link);
+	loc.setDescription(description);
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.saveLocation(loc, userId);
+	return loc;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * users.resourcesLayer.IResourcesLocation#addLocation(java.lang.String,
-	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public Location addLocation(String name, String lat, String lng,
-			String link, String description) {
-		Location loc = new Location();
-		loc.setName(name);
-		loc.setLat(lat);
-		loc.setLng(lng);
-		loc.setLink(link);
-		loc.setDescription(description);
-		LocationAccessor la = LocationAccessor.getLocationAccessor();
-		la.saveLocation(loc);
-		return loc;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * users.resourcesLayer.IResourcesLocation#deleteLocation(users.domainLogic
+     * .business.Location)
+     */
+    @Override
+    public void deleteLocation(Location loc) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.deleteLocation(loc);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * users.resourcesLayer.IResourcesLocation#deleteLocation(users.domainLogic
-	 * .business.Location)
-	 */
-	public void deleteLocation(Location loc) {
-		LocationAccessor la = LocationAccessor.getLocationAccessor();
-		la.deleteLocation(loc);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * users.resourcesLayer.IResourcesLocation#deleteLocation(java.lang.String)
+     */
+    @Override
+    public void deleteLocation(String name) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.deleteLocation(name);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * users.resourcesLayer.IResourcesLocation#deleteLocation(java.lang.String)
-	 */
-	public void deleteLocation(String name) {
-		LocationAccessor la = LocationAccessor.getLocationAccessor();
-		la.deleteLocation(name);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * users.resourcesLayer.IResourcesLocation#updateLocation(java.lang.String,
-	 * java.lang.String, java.lang.String)
-	 */
-	public void updateLocation(String name, String description, String link) {
-		LocationAccessor la = LocationAccessor.getLocationAccessor();
-		la.updateLocation(name, description, link);
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * users.resourcesLayer.IResourcesLocation#updateLocation(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
+    @Override
+    public void updateLocation(String name, String description, String link) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.updateLocation(name, description, link);
+    }
 
     @Override
     public List<Location> getLocations(String id) {
@@ -106,8 +110,9 @@ public class LocationAdministration implements IResourcesLocation {
 
     @Override
     public List<Location> getLocations(Location myLocalization) {
-	// TODO this is hard to accomplish. i need a special algorithm to compute coordinates around the current
-	//position. so maybe we drop this.
+	// TODO this is hard to accomplish. i need a special algorithm to
+	// compute coordinates around the current
+	// position. so maybe we drop this.
 	return null;
     }
 
@@ -116,6 +121,4 @@ public class LocationAdministration implements IResourcesLocation {
 	LocationAccessor la = LocationAccessor.getLocationAccessor();
 	la.deleteLocationByUser(idUser);
     }
-
-
 }
