@@ -88,5 +88,17 @@ public interface IResourcesLocation {
 	 * @return locations
 	 */
 	public List<Location> getLocations(Location myLocalization);
+	
+	/**
+	 * Delete from user id a place visited.
+	 * 
+	 * @param idUser
+	 *            User id
+	 * @param idLocation
+	 *            Location id
+	 * @return true if the deleteLocation was successful or false in the other case          
+	 */
+	public boolean deleteLocation(String idUser, List<Location> loc);
+
 
 }

@@ -109,4 +109,10 @@ public class LocationAdministration implements IResourcesLocation {
 		return null;
 	}
 
+	@Override
+	public boolean deleteLocation(String idUser, List<Location> loc) {
+		// TODO A user is able to delete a list of his places.
+		return false;
+	}
+
 }
