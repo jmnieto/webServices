@@ -97,22 +97,25 @@ public class LocationAdministration implements IResourcesLocation {
 		la.updateLocation(name, description, link);
 	}
 
-	@Override
-	public List<Location> getLocations(String id) {
-		// TODO I must receive all my places (from a user id)
-		return null;
-	}
 
-	@Override
-	public List<Location> getLocations(Location myLocalization) {
-		// TODO I must receive the locations around my initialLocation (from geolocalization)
-		return null;
-	}
+    @Override
+    public List<Location> getLocations(String id) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	return la.retrieveLocationByUser(id);
+    }
 
-	@Override
-	public boolean deleteLocation(String idUser, List<Location> loc) {
-		// TODO A user is able to delete a list of his places.
-		return false;
-	}
+    @Override
+    public List<Location> getLocations(Location myLocalization) {
+	// TODO this is hard to accomplish. i need a special algorithm to compute coordinates around the current
+	//position. so maybe we drop this.
+	return null;
+    }
+
+    @Override
+    public void deleteLocationByUserId(String idUser) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	la.deleteLocationByUser(idUser);
+    }
+
 
 }
