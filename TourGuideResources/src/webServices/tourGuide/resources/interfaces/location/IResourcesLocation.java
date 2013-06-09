@@ -100,4 +100,6 @@ public interface IResourcesLocation {
      */
     public void deleteLocationByUserId(String idUser, List<Location> loc);
 
+    public void deleteLocation(List<Location> list);
+
 }

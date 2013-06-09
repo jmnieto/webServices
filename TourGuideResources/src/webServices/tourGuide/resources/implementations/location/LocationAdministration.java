@@ -121,4 +121,11 @@ public class LocationAdministration implements IResourcesLocation {
 	LocationAccessor la = LocationAccessor.getLocationAccessor();
 	la.deleteLocationByUser(idUser);
     }
+
+    public void deleteLocation(List<Location> list) {
+	LocationAccessor la = LocationAccessor.getLocationAccessor();
+	for (Location l : list) {
+	    la.deleteLocation(l);
+	}
+    }
 }
