@@ -7,6 +7,8 @@
  */
 package webServices.tourGuide.resources.interfaces.location;
 
+import java.util.List;
+
 import webServices.tourGuide.domainLogic.model.location.Location;
 
 
@@ -68,5 +70,23 @@ public interface IResourcesLocation {
 	 *            the link
 	 */
 	public void updateLocation(String name, String description, String link);
+	
+	/**
+	 * Get Locations from a user id.
+	 * 
+	 * @param id
+	 *            User id
+	 * @return locations
+	 */
+	public List<Location> getLocations(String id);
+	
+	/**
+	 * Get Locations around initial Location
+	 * 
+	 * @param myLocalization
+	 *            The initial location from geolocalization 
+	 * @return locations
+	 */
+	public List<Location> getLocations(Location myLocalization);
 
 }

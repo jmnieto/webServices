@@ -7,6 +7,8 @@
  */
 package webServices.tourGuide.resources.implementations.location;
 
+import java.util.List;
+
 import webServices.tourGuide.domainLogic.model.location.Location;
 import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
 
@@ -93,6 +95,18 @@ public class LocationAdministration implements IResourcesLocation {
 	public void updateLocation(String name, String description, String link) {
 		LocationAccessor la = LocationAccessor.getLocationAccessor();
 		la.updateLocation(name, description, link);
+	}
+
+	@Override
+	public List<Location> getLocations(String id) {
+		// TODO I must receive all my places (from a user id)
+		return null;
+	}
+
+	@Override
+	public List<Location> getLocations(Location myLocalization) {
+		// TODO I must receive the locations around my initialLocation (from geolocalization)
+		return null;
 	}
 
 }
