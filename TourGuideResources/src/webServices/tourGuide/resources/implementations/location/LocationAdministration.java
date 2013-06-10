@@ -128,4 +128,11 @@ public class LocationAdministration implements IResourcesLocation {
 	    la.deleteLocation(l);
 	}
     }
+
+	@Override
+	public Location addLocation(String address, String userId) {
+		// TODO A user search an address and this one is automatically stored in his places.
+		// I should receive a Location with all the info from this address to print it in the view.
+		return null;
+	}
 }
