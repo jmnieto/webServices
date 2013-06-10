@@ -3,6 +3,7 @@ package webServices.tourGuide.presentation.client.presenters;
 import webServices.tourGuide.domainLogic.services.interfaces.user.UsersServiceAsync;
 import webServices.tourGuide.presentation.client.events.NavigationEvent;
 import webServices.tourGuide.presentation.client.presenters.prototype.Presenter;
+import webServices.tourGuide.presentation.dataTransferObjects.ResponseDTO;
 import webServices.tourGuide.presentation.dataTransferObjects.ResponseLoginDTO;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,6 +23,7 @@ public class RegisterPresenter extends Presenter{
 		public void				focusUsername();
 		public String			getUsername();
 		public String			getPassword();
+		public String			getPassword2();
 		
 		//Button
 		public HasClickHandlers getOk();
@@ -29,9 +31,12 @@ public class RegisterPresenter extends Presenter{
 		// Error
 		public void				setVisibleError(boolean visible);
 		public void				setVisibleError(boolean visible, String text);
+		
+		public HasClickHandlers getRegisterButton();
 				
 		public void clear();
 	}
+
 	
 	private HandlerManager 	  eventBus;
 	private Display 		  view;
@@ -46,7 +51,7 @@ public class RegisterPresenter extends Presenter{
 
 	@Override
 	public void init() {
-		addHandlerRegistration(view.getOk().addClickHandler(enter));
+		addHandlerRegistration(view.getRegisterButton().addClickHandler(ButtonRegister));
 	}
 
 
@@ -64,7 +69,7 @@ public class RegisterPresenter extends Presenter{
 	}
 	
 //////////////////////////////OK button///////////////////////////////
-	ClickHandler enter = new ClickHandler() {
+	ClickHandler ButtonRegister = new ClickHandler() {
 		
 		@Override
 		public void onClick(ClickEvent event) {
@@ -75,16 +80,29 @@ public class RegisterPresenter extends Presenter{
 				view.setVisibleError(true);
 				view.focusUsername();
 			}else{
-				usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
+				usersManager.addUser(view.getUsername(), view.getPassword(), view.getPassword2(), "", new AsyncCallback<ResponseDTO>() {
 					
 					@Override
-					public void onSuccess(ResponseLoginDTO result) {
-						if(result.isLoginSuccessful()){
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
-						}else{
-							view.setVisibleError(true, result.getMessage());
-							view.focusUsername();
-						}
+					public void onSuccess(ResponseDTO result) {
+						//eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+						usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
+							
+							@Override
+							public void onSuccess(ResponseLoginDTO result) {
+								if(result.isLoginSuccessful()){
+									eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+								}else{
+									view.setVisibleError(true, result.getMessage());
+									view.focusUsername();
+								}
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								view.setVisibleError(true, caught.getMessage());
+							}
+						});
+						
 					}
 					
 					@Override
