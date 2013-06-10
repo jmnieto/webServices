@@ -168,6 +168,26 @@ public class LocationAccessor {
     }
 
     /**
+     * Save location.
+     * 
+     * @param city
+     *            the city
+     * @param userId
+     *            the user id
+     * @return the location
+     */
+    public Location saveLocation(String city, String userId) {
+	Location tmp = new Location();
+	tmp.setName(city);
+	saveLocation(tmp, userId);
+	if (contains(city)) {
+	    return retrieveLocation(city);
+	}
+	return null;
+
+    }
+
+    /**
      * Retrieve location.
      * 
      * @param name

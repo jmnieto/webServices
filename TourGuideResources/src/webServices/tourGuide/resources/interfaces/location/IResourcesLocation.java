@@ -101,16 +101,16 @@ public interface IResourcesLocation {
     public void deleteLocationByUserId(String idUser, List<Location> loc);
 
     public void deleteLocation(List<Location> list);
-    
+
     /**
      * A user want to add a location to his places.
      * 
      * @param idUser
      *            User id
      * @param address
-     *            String Address
+     *            String City
      * @return Location from this address
      */
-    public Location addLocation(String address, String userId);
+    public Location addLocation(String city, String userId);
 
 }
