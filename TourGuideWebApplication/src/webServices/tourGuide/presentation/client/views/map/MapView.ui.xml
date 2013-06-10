@@ -3,8 +3,13 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
 	
 	<g:HTMLPanel styleName="Map-ContainerPanel" ui:field="ContainerPanel">
+		<g:HorizontalPanel>
+			<g:TextBox text="Search in a city" ui:field="TextBoxSearch"/>
+			<g:ToggleButton text="Search" ui:field="SearchButton"/>
+			<g:ToggleButton text="Localize me" ui:field="LocalizeButton"/>
+		</g:HorizontalPanel>
 		<g:HorizontalPanel styleName="Map-MapPanel" ui:field="MapPanel" width="500" height="500"/>
-		<g:HorizontalPanel styleName="Map-PlacesPanel" ui:field="PlacesPanel"/>
+		<g:HorizontalPanel styleName="Map-MapPanel" ui:field="PlacesPanel"/>
 
 
 
