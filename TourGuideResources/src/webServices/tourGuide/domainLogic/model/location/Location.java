@@ -1,12 +1,6 @@
-/**
- * @author Walter Gugenberger
- * @date 30.05.2013 15:34:51
- * @version
- * @name UsersGestion.users.domainLogic.business.Location.java
- * @description Location models a location
- */
 package webServices.tourGuide.domainLogic.model.location;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,24 +10,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Location {
 
     /** The id. */
+
     private String id;
 
     /** The name. */
+
     private String name;
 
     /** The lat. */
+
     private String lat;
 
     /** The lng. */
+
     private String lng;
 
     /** The link. */
+
     private String link;
 
     /** The description. */
+
     private String description;
 
     /** The timestamp. */
+
     private String timestamp;
 
     /**
@@ -77,6 +78,7 @@ public class Location {
      * 
      * @return the id
      */
+    @XmlElement(name = "id")
     public String getId() {
 	return this.id;
     }
@@ -96,6 +98,7 @@ public class Location {
      * 
      * @return the name
      */
+    @XmlElement(name = "name")
     public String getName() {
 	return this.name;
     }
@@ -115,6 +118,7 @@ public class Location {
      * 
      * @return the lat
      */
+    @XmlElement(name = "lat")
     public String getLat() {
 	return this.lat;
     }
@@ -134,6 +138,7 @@ public class Location {
      * 
      * @return the lng
      */
+    @XmlElement(name = "lng")
     public String getLng() {
 	return this.lng;
     }
@@ -153,6 +158,7 @@ public class Location {
      * 
      * @return the link
      */
+    @XmlElement(name = "link")
     public String getLink() {
 	return this.link;
     }
@@ -172,6 +178,7 @@ public class Location {
      * 
      * @return the description
      */
+    @XmlElement(name = "description")
     public String getDescription() {
 	return this.description;
     }
@@ -191,6 +198,7 @@ public class Location {
      * 
      * @return the timestamp
      */
+    @XmlElement(name = "timestamp")
     public String getTimestamp() {
 	return this.timestamp;
     }

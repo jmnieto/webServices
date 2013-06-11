@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriBuilder;
 
 import webServices.tourGuide.domainLogic.model.location.Location;
 import webServices.tourGuide.domainLogic.model.user.RoleUser;
@@ -14,20 +15,28 @@ import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
-    private WebResource resource;
+    private WebResource resource;/* wuidl.no-ip.org */
     private static final String REST_PATH = "http://wuidl.no-ip.org:8080/guide/rest/";
     private static final String LOC_PATH = "location/";
     private static final String USR_PATH = "user/";
 
     public Rest() {
-	this.client = Client.create(new DefaultClientConfig());
-	this.resource = this.client.resource(REST_PATH);
+	ClientConfig config = new DefaultClientConfig();
+	config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING,
+		Boolean.TRUE);
+
+	this.client = Client.create(config);
+	this.resource = this.client.resource(UriBuilder.fromUri(REST_PATH)
+		.build());
 
     }
 
@@ -65,31 +74,38 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     }
 
     @Override
-    public User getUser(String nameUser) {
+    public List<User> getUser(String nameUser) {
 	ClientResponse response = this.resource.path(USR_PATH).path("getUser")
-		.type("application/json").accept("application/json")
+		.type("text/plain").accept(MediaType.APPLICATION_JSON)
 		.post(ClientResponse.class, nameUser);
-	return response.getEntity(User.class);
+	if (response.getStatus() == 200) {
+	    return response.getEntity(new GenericType<List<User>>() {
+	    });
+	} else {
+	    return null;
+	}
     }
 
     @Override
     public List<User> getUsers() {
-	ClientResponse response = this.resource.path(USR_PATH).path("getUsers")
-		.accept("application/json").post(ClientResponse.class);
-	return null;// TODO
+	WebResource builder = this.resource.path(USR_PATH).path("getUsers");
+	List<User> users = builder.accept(MediaType.APPLICATION_JSON).post(User.class, "bla");
+
     }
 
     @Override
     public boolean existUser(String nameUser) {
-	ClientResponse response = this.resource.path("USR_PATH")
-		.path("existUser").type("text/plain")
-		.accept("application/json").post(ClientResponse.class);
-	return response.getEntity(Boolean.class);
+	ClientResponse builder = this.resource.path(USR_PATH).path("existUser")
+		.queryParam("name", nameUser).type("text/plain")
+		.accept("application/json").get(ClientResponse.class);
+	// GenericType<Boolean> response = new GenericType<Boolean>() {
+	// };
+	return builder.getStatus() == 200 ? true : false;
     }
 
     @Override
     public boolean checkPassword(String nameUser, String password) {
-	ClientResponse response = this.resource.path("USR_PATH")
+	ClientResponse response = this.resource.path(USR_PATH)
 		.path("checkPassword").type("text/plain")
 		.accept("application/json").post(ClientResponse.class);
 	return response.getEntity(Boolean.class);
@@ -97,7 +113,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     @Override
     public void setPassword(User user, String newPassword) {
-	this.resource.path("USR_PATH").path("setPwd")
+	this.resource.path(USR_PATH).path("setPwd")
 	.queryParam("pwd", newPassword).accept("application/json")
 	.post(ClientResponse.class, user);
 
@@ -105,9 +121,8 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     @Override
     public void setName(User user, String newName) {
-	this.resource.path("USR_PATH").path("setName")
-	.queryParam("pwd", newName).accept("application/json")
-	.post(ClientResponse.class, user);
+	this.resource.path(USR_PATH).path("setName").queryParam("pwd", newName)
+	.accept("application/json").post(ClientResponse.class, user);
 
     }
 
