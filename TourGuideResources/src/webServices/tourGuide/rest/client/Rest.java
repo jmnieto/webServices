@@ -1,4 +1,4 @@
-lpackage webServices.tourGuide.rest.client;
+package webServices.tourGuide.rest.client;
 
 import java.util.List;
 
@@ -173,16 +173,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     @Override
     public List<Location> getLocations(Location myLocalization) {
 	// TODO Auto-generated method stub
-    	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
-    	map.putSingle("name", myLocalization.getName());
-    	map.putSingle("lat", myLocalization.getLat());
-    	map.putSingle("link", myLocalization.getLink());
-    	map.putSingle("description", myLocalization.getDescription());
-    	map.putSingle("id", myLocalization.getId());
-    	map.putSingle("lng", myLocalization.getLng());
-    	ClientResponse response = this.resource.path(LOC_PATH).path("getLocations")
-    			.queryParam(map).accept("application/json").post(ClientResponse.class);
-	return null; //TODO response.getEntity(..);
+	return null;
     }
 
     @Override
