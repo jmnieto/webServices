@@ -25,7 +25,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
     private WebResource resource;/* wuidl.no-ip.org */
-    private static final String REST_PATH = "http://wuidl.no-ip.org:8080/guide/rest/";
+    private static final String REST_PATH = "http://10.0.0.5:8080/guide/rest/";
     private static final String LOC_PATH = "location/";
     private static final String USR_PATH = "user/";
 
@@ -45,52 +45,44 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
 	map.putSingle("name", name);
 	map.putSingle("pwd", pass);
-	ClientResponse response = this.resource.path(USR_PATH).path("addUser")
-		.queryParams(map).type(MediaType.TEXT_PLAIN)
-		.accept("application/json").post(ClientResponse.class);
-	return response.getEntity(User.class);
+	User u = this.resource.path(USR_PATH).path("addUser").queryParams(map)
+		.type(MediaType.TEXT_PLAIN).accept("application/json")
+		.post(User.class);
+	return u;
     }
 
     @Override
     public User addUser(User user) throws ExistingUserException {
-	ClientResponse response = this.resource.path(USR_PATH)
-		.path("addUserObject").type("application/json")
-		.accept("application/json").post(ClientResponse.class, user);
-	return response.getEntity(User.class);
+	return this.resource.path(USR_PATH).path("addUserObject")
+		.type("application/json").accept("application/json")
+		.post(User.class, user);
     }
 
     @Override
     public void delUser(User user) {
 	this.resource.path(USR_PATH).path("deleteUser")
 	.type("application/json").accept("application/json").post(user);
-
     }
 
     @Override
     public void synchronizeUser(User user) {
 	this.resource.path(USR_PATH).path("syncUser").type("application/json")
-	.accept("application/json").post(user);
+	.put(user);
 
     }
 
     @Override
     public List<User> getUser(String nameUser) {
-	ClientResponse response = this.resource.path(USR_PATH).path("getUser")
-		.type("text/plain").accept(MediaType.APPLICATION_JSON)
-		.post(ClientResponse.class, nameUser);
-	if (response.getStatus() == 200) {
-	    return response.getEntity(new GenericType<List<User>>() {
-	    });
-	} else {
-	    return null;
-	}
+	return this.resource.path(USR_PATH).path("getUser").type("text/plain")
+		.accept("application/json").get(new GenericType<List<User>>() {
+		});
     }
 
     @Override
     public List<User> getUsers() {
-	WebResource builder = this.resource.path(USR_PATH).path("getUsers");
-	List<User> users = builder.accept(MediaType.APPLICATION_JSON).post(User.class, "bla");
-
+	return this.resource.path(USR_PATH).path("getUsers")
+		.accept("application/json").get(new GenericType<List<User>>() {
+		});
     }
 
     @Override
@@ -98,41 +90,41 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	ClientResponse builder = this.resource.path(USR_PATH).path("existUser")
 		.queryParam("name", nameUser).type("text/plain")
 		.accept("application/json").get(ClientResponse.class);
-	// GenericType<Boolean> response = new GenericType<Boolean>() {
-	// };
 	return builder.getStatus() == 200 ? true : false;
     }
 
     @Override
     public boolean checkPassword(String nameUser, String password) {
+	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
+	map.putSingle("name", nameUser);
+	map.putSingle("pwd", password);
 	ClientResponse response = this.resource.path(USR_PATH)
 		.path("checkPassword").type("text/plain")
 		.accept("application/json").post(ClientResponse.class);
-	return response.getEntity(Boolean.class);
+	return response.getStatus() == 200 ? true : false;
     }
 
     @Override
     public void setPassword(User user, String newPassword) {
 	this.resource.path(USR_PATH).path("setPwd")
-	.queryParam("pwd", newPassword).accept("application/json")
-	.post(ClientResponse.class, user);
+	.queryParam("pwd", newPassword).type("application/json")
+	.accept("application/json").post(user);
 
     }
 
     @Override
     public void setName(User user, String newName) {
-	this.resource.path(USR_PATH).path("setName").queryParam("pwd", newName)
-	.accept("application/json").post(ClientResponse.class, user);
+	this.resource.path(USR_PATH).path("setName")
+	.queryParam("user", newName).type("text/plain").post(user);
 
     }
 
     @Override
-    public Location addLocation(Location loc, String userId) {
-	ClientResponse response = this.resource.path(LOC_PATH)
-		.path("addLocation").queryParam("id", userId)
+    public List<Location> addLocation(Location loc, String userId) {
+	return this.resource.path(LOC_PATH).path("addLocationObject")
 		.type("application/json").accept("application/json")
-		.post(ClientResponse.class, loc);
-	return response.getEntity(Location.class);
+		.post(new GenericType<List<Location>>() {
+		}, loc);
     }
 
     @Override
@@ -145,22 +137,37 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	map.putSingle("description", description);
 	map.putSingle("id", userId);
 	map.putSingle("lng", lng);
-	ClientResponse response = this.resource.path(LOC_PATH)
-		.path("addLocation").queryParams(map)
-		.post(ClientResponse.class);
-	return response.getEntity(Location.class);
+	map.putSingle("userId", userId);
+	return this.resource.path(LOC_PATH).path("addLocation")
+		.queryParams(map).type("text/plain").accept("application/json")
+		.post(Location.class);
+    }
+
+    @Override
+    public List<Location> getLocations(String userId) {
+	return this.resource.path(LOC_PATH).path("retrieveLocationByUserId")
+		.queryParam("id", userId)
+		.get(new GenericType<List<Location>>() {
+		});
+    }
+
+    // idk how to implement that. we cannot provide this feature
+    @Override
+    public List<Location> getLocations(Location myLocalization) {
+	// TODO Auto-generated method stub
+	return null;
     }
 
     @Override
     public void deleteLocation(Location loc) {
 	this.resource.path(LOC_PATH).path("deleteLocation")
-	.type("application/json").post(ClientResponse.class, loc);
+	.type("application/json").post(loc);
 
     }
 
     @Override
     public void deleteLocation(String name) {
-	this.resource.path(LOC_PATH).path("deleteLocation")
+	this.resource.path(LOC_PATH).path("deleteLocationByName")
 	.queryParam("name", name).type("text/plain")
 	.post(ClientResponse.class);
 
@@ -175,20 +182,6 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	this.resource.path(LOC_PATH).path("updateLocation").queryParams(map)
 	.type("text/plain").post();
 
-    }
-
-    @Override
-    public List<Location> getLocations(String id) {
-	ClientResponse response = this.resource.path(LOC_PATH)
-		.path("getLocations").queryParam("id", id)
-		.accept("application/json").post(ClientResponse.class);
-	return null;// TODO
-    }
-
-    @Override
-    public List<Location> getLocations(Location myLocalization) {
-	// TODO Auto-generated method stub
-	return null;
     }
 
     @Override
@@ -209,7 +202,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     public Location addLocation(String city, String userId) {
 	Location loc = new Location();
 	loc.setName(city);
-	return this.addLocation(loc, userId);
+	return this.addLocation(city, "", "", "", "", userId);
     }
 
 }

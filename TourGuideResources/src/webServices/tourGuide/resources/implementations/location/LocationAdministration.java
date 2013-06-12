@@ -37,10 +37,10 @@ public class LocationAdministration implements IResourcesLocation {
      * .business.Location)
      */
     @Override
-    public Location addLocation(Location loc, String userId) {
+    public List<Location> addLocation(Location loc, String userId) {
 	LocationAccessor la = LocationAccessor.getLocationAccessor();
 	la.saveLocation(loc, userId);
-	return loc;
+	return null;
     }
 
     /*

@@ -17,13 +17,14 @@ import webServices.tourGuide.domainLogic.model.location.Location;
 public interface IResourcesLocation {
 
     /**
-     * Adds the location.
+     * Adds the location. Returns all the location of the user.<br>
+     * So the list we keep in GWT is always refreshed.
      * 
      * @param loc
      *            the loc
      * @return the location
      */
-    public Location addLocation(Location loc, String userId);
+    public List<Location> addLocation(Location loc, String userId);
 
     /**
      * Adds the location.
@@ -77,7 +78,7 @@ public interface IResourcesLocation {
      *            User id
      * @return locations
      */
-    public List<Location> getLocations(String id);
+    public List<Location> getLocations(String userId);
 
     /**
      * Get Locations around initial Location

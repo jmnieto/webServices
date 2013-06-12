@@ -18,10 +18,12 @@ public class RestTest {
 	User u = new User();
 	u.setConnect(false);
 	u.setRole(RoleUser.Consumer);
+	u.setId("0");
 	u.setUsername("walter");
-	u.setPass("hahahha");
-	// u = r.addUser(u);
-
+	u.setPass("123456");
+	System.out.println(u.toString());
+	u = r.addUser(u);
+	System.out.println(u.toString());
 	Location l = new Location();
 	l.setName("Innsbruck");
 	l.setLink("http://www.innsbruck.gv.at");
