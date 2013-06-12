@@ -10,7 +10,6 @@ package webServices.tourGuide.resources.implementations.user;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
@@ -40,10 +39,10 @@ public class UserAdministration implements IResourcesUsers {
      * java.lang.String, users.domainLogic.business.RoleUser)
      */
     @Override
-    public User addUser(String name, String pass, RoleUser role)
+    public User addUser(String name, String pass)
 	    throws ExistingUserException {
 	UserAccessor ua = UserAccessor.getUserAccessor();
-	User u = new User(name, pass, role);
+	User u = new User(name, pass);
 	ua.saveUser(u);
 	return u;
     }

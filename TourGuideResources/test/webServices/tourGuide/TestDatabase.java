@@ -1,7 +1,6 @@
 package webServices.tourGuide;
 
 import webServices.tourGuide.domainLogic.model.location.Location;
-import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 import webServices.tourGuide.resources.implementations.location.LocationAdministration;
@@ -17,7 +16,6 @@ public class TestDatabase {
 	Location l = new Location();
 	u.setUsername("Hugo");
 	u.setPass("password");
-	u.setRole(RoleUser.Consumer);
 	l.setName("Innsbruck");
 	l.setLink("http://www.innsbruck.gv.at");
 	l.setDescription("Innsbruck is a town in Tyrol, Austria.");

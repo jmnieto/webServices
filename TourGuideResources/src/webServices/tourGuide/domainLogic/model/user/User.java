@@ -17,19 +17,12 @@ public class User {
 
     private String pass;
 
-    private RoleUser role;
-
-    private boolean connect = false;
-
-    //  private List<Attribute> attibutes = new ArrayList<Attribute>();
-
     public User() {
     }
 
-    public User(String name, String pass, RoleUser role) {
+    public User(String name, String pass) {
 	setUsername(name);
 	setPass(pass);
-	setRole(role);
     }
 
     @XmlElement(name = "id")
@@ -74,45 +67,4 @@ public class User {
 	}
 	this.pass = pass;
     }
-
-    @XmlElement(name = "role")
-    public RoleUser getRole() {
-	return this.role;
-    }
-
-    public void setRole(RoleUser role) {
-	if (role == null) {
-	    throw new IllegalArgumentException("Argumento nulo.");
-	}
-	this.role = role;
-    }
-
-    @XmlElement(name = "connect")
-    public boolean isConnect() {
-	return this.connect;
-    }
-
-    public void setConnect(boolean connect) {
-	this.connect = connect;
-    }
-    //
-    //    /**
-    //     * @return the attibutes
-    //     */
-    //    @XmlElementWrapper
-    //    @XmlElement(name = "attributes")
-    //    public List<Attribute> getAttibutes() {
-    //	return this.attibutes;
-    //    }
-    //
-    //    /**
-    //     * @param attibutes
-    //     *            the attibutes to set
-    //     */
-    //    public void setAttibutes(List<Attribute> attibutes) {
-    //	if (attibutes == null) {
-    //	    throw new IllegalArgumentException("Argumento nulo.");
-    //	}
-    //	this.attibutes = attibutes;
-    //    }
 }

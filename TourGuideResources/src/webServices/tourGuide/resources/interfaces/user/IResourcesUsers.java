@@ -5,7 +5,6 @@ package webServices.tourGuide.resources.interfaces.user;
 
 import java.util.List;
 
-import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 
@@ -19,7 +18,7 @@ public interface IResourcesUsers {
      * @param role Role of the user on the application. The use of the administration functions will depend on the user role.
      * @return An user with a set id will be returned
      */
-    public User addUser(String name, String pass, RoleUser role) throws ExistingUserException;
+    public User addUser(String name, String pass) throws ExistingUserException;
 
     /**
      * It will saved an user which it has already been created.

@@ -7,7 +7,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import webServices.tourGuide.domainLogic.model.location.Location;
-import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
@@ -41,7 +40,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     }
 
     @Override
-    public User addUser(String name, String pass, RoleUser role) {
+    public User addUser(String name, String pass) {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
 	map.putSingle("name", name);
 	map.putSingle("pwd", pass);
