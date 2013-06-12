@@ -24,8 +24,8 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
-    private WebResource resource;/* wuidl.no-ip.org */
-    private static final String REST_PATH = "http://10.0.0.5:8080/guide/rest/";
+    private WebResource resource;/* 10.0.0.5 */
+    private static final String REST_PATH = "http://wuidl.no-ip.org:8080/guide/rest/";
     private static final String LOC_PATH = "location/";
     private static final String USR_PATH = "user/";
 
