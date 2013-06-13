@@ -12,8 +12,9 @@
 /******************** Menu Principal de dominios *******************************/
 .MenuBar-Principal {
 	background	: url("images/menuBar.png") repeat-x scroll left top #4F8DBC;
-	border		: 1px solid #E0E0E0;
-	padding     : 1px;
+	color: White;
+	padding: 1px;
+	border: 1px solid #E0E0E0;
 /* 	position	: static; */
 }
 
@@ -32,12 +33,12 @@
 .MenuBar-Logo {
     float: left;
     margin-left: 35px;
+    background	: url("images/menuBar.png");
 }
 .MenuBar-LogoText {
     float: left;
-	color: white;
 	margin-top: 12px;
-	padding-right: 50px;
+	padding: null 50px null null;
 	font-size: small;
 	font-style: italic;
 	cursor: default;
@@ -45,6 +46,7 @@
 
 .MenuBar-Principal-Item {
 	float : left;
+	color: White;
 }
 
 /** Posicionamos el profile**/
