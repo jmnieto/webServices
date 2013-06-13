@@ -64,6 +64,7 @@ public class PrincipalPresenter extends Presenter{
 		public Panel getPanelMap();
 		//TABLE PLACES
 		public Panel getPanelPlaces();
+		public void setLabelWelcome(String name);
 	}
 	
 	private HandlerManager 	eventBus;
@@ -112,12 +113,13 @@ public class PrincipalPresenter extends Presenter{
 		
 		//addDomain("Map");
 		//addDomain("Places");
+		loadUser();
+		eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map));
 		
 	}
 
 	@Override
 	public void start() {
-		eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map));
 	}
 	
 	@Override
@@ -141,6 +143,22 @@ public class PrincipalPresenter extends Presenter{
 	
 	/**************************MENU*****************************/
 	
+	
+public void loadUser(){
+	usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+		
+		@Override
+		public void onSuccess(UserDTO result) {
+			view.setLabelWelcome(result.getName());
+		}
+		
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+}
 //////////////////////////////Map button///////////////////////////////
 ClickHandler MapButton = new ClickHandler() {
 

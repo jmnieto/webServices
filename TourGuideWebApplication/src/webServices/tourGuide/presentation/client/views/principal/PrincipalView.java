@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class PrincipalView extends Composite implements PrincipalPresenter.Display{
 	private static final String UPLOAD_ACTION_URL = GWT.getModuleBaseURL() + "DownloadLog";
@@ -32,6 +33,7 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 	@UiField ToggleButton ButtonPlaces;
 	@UiField ToggleButton ButtonConfiguration;
 	@UiField ToggleButton ButtonLogOut;
+	@UiField Label LabelWelcome;
 	
 
 	// dominio About;
@@ -181,6 +183,12 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 	public HasClickHandlers getLogOutButton() {
 		// TODO Auto-generated method stub
 		return ButtonLogOut;
+	}
+
+	@Override
+	public void setLabelWelcome(String name) {
+		// TODO Auto-generated method stub
+		LabelWelcome.setText(name);
 	}
 
 

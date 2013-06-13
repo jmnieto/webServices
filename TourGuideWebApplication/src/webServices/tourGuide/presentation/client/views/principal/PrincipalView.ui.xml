@@ -11,6 +11,7 @@
 				<g:ToggleButton text="Configuration" styleName="MenuBar-Principal-Item" ui:field="ButtonConfiguration" width="110" height="34"/>
 				<g:ToggleButton text="Log out" ui:field="ButtonLogOut"/>
 			</g:HorizontalPanel>
+			<g:Label text="New Label" ui:field="LabelWelcome"/>
 		</g:FlowPanel>
 		<g:HorizontalPanel/>
 		<g:FlowPanel styleName="ContenedorCuerpo">

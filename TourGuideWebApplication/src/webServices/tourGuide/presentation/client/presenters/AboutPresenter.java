@@ -206,14 +206,14 @@ public class AboutPresenter extends Presenter{
 									
 									@Override
 									public void onFailure(Throwable caught) {
-										eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+										eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"It was impossible to add this location to the DB"));
 									}
 								});
 							}
 						}					
 						@Override
 						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"Error to get user on about"));
 							
 						}
 					});

@@ -182,7 +182,7 @@ public class ConfigurationPresenter extends Presenter{
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"You cant be deleted. Contact us for more info."));
 							
 						}
 					});
@@ -190,7 +190,7 @@ public class ConfigurationPresenter extends Presenter{
 				
 				@Override
 				public void onFailure(Throwable caught) {
-					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"Impossible to load user in configuration"));
 				}
 			});
 		}
@@ -201,25 +201,28 @@ public class ConfigurationPresenter extends Presenter{
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+			if(view.getNameText() != null || view.getNameText() != "")
+				usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
 				
-				@Override
-				public void onSuccess(UserDTO result) {
-					usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(UserDTO result) {
+						usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
 						
-						@Override
-						public void onSuccess(Void result) {
+							@Override
+							public void onSuccess(Void result) {
 							// TODO Auto-generated method stub
 							
-						}
+							}
 						
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					
+							@Override
+							public void onFailure(Throwable caught) {
+								eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+									"Impossible to load user in configuration"));
+
+							}
+						});
+
+				if(view.getPass1Text() != null || view.getPass1Text() != ""){
 						usersManager.setPassUser(view.getPass1Text(), view.getPass2Text(), new AsyncCallback<Void>() {
 						
 							@Override
@@ -230,10 +233,12 @@ public class ConfigurationPresenter extends Presenter{
 						
 							@Override
 							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
+								eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+										"Impossible to update user information in configuration"));
 								
 							}
 						});
+					}
 
 				}
 				
