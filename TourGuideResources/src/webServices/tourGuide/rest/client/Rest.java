@@ -1,3 +1,10 @@
+/**
+ * @author Walter Gugenberger
+ * @date 13.06.2013 22:36:15
+ * @version
+ * @name TourGuideResources.webServices.tourGuide.rest.client.Rest.java
+ * @description Rest
+ */
 package webServices.tourGuide.rest.client;
 
 import java.util.List;
@@ -21,13 +28,29 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+/**
+ * The Class Rest.
+ */
 public class Rest implements IResourcesLocation, IResourcesUsers {
+
+    /** The client. */
     private Client client;
+
+    /** The resource. */
     private WebResource resource;/* 10.0.0.5 */
+
+    /** The Constant REST_PATH. */
     private static final String REST_PATH = "http://10.0.0.5:8080/guide/rest/";
+
+    /** The Constant LOC_PATH. */
     private static final String LOC_PATH = "location/";
+
+    /** The Constant USR_PATH. */
     private static final String USR_PATH = "user/";
 
+    /**
+     * Instantiates a new rest.
+     */
     public Rest() {
 	ClientConfig config = new DefaultClientConfig();
 	config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING,
@@ -39,6 +62,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#addUser
+     * (java.lang.String, java.lang.String)
+     */
     @Override
     public User addUser(String name, String pass) {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
@@ -50,6 +80,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	return u;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#addUser
+     * (webServices.tourGuide.domainLogic.model.user.User)
+     */
     @Override
     public User addUser(User user) throws ExistingUserException {
 	return this.resource.path(USR_PATH).path("addUserObject")
@@ -57,12 +94,25 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 		.post(User.class, user);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#delUser
+     * (webServices.tourGuide.domainLogic.model.user.User)
+     */
     @Override
     public void delUser(User user) {
 	this.resource.path(USR_PATH).path("deleteUser")
 	.type("application/json").accept("application/json").post(user);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see webServices.tourGuide.resources.interfaces.user.IResourcesUsers#
+     * synchronizeUser(webServices.tourGuide.domainLogic.model.user.User)
+     */
     @Override
     public void synchronizeUser(User user) {
 	this.resource.path(USR_PATH).path("syncUser").type("application/json")
@@ -70,6 +120,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#getUser
+     * (java.lang.String)
+     */
     @Override
     public List<User> getUser(String nameUser) {
 	return this.resource.path(USR_PATH).path("getUser/" + nameUser)
@@ -78,6 +135,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 		});
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#getUsers
+     * ()
+     */
     @Override
     public List<User> getUsers() {
 	return this.resource.path(USR_PATH).path("getUsers")
@@ -86,6 +150,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#existUser
+     * (java.lang.String)
+     */
     @Override
     public boolean existUser(String nameUser) {
 	ClientResponse builder = this.resource.path(USR_PATH).path("existUser")
@@ -94,6 +165,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	return builder.getStatus() == 200 ? true : false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#checkPassword
+     * (java.lang.String, java.lang.String)
+     */
     @Override
     public boolean checkPassword(String nameUser, String password) {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
@@ -105,6 +183,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	return response.getStatus() == 200 ? true : false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#setPassword
+     * (webServices.tourGuide.domainLogic.model.user.User, java.lang.String)
+     */
     @Override
     public void setPassword(User user, String newPassword) {
 	this.resource.path(USR_PATH).path("setPwd")
@@ -113,6 +198,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.user.IResourcesUsers#setName
+     * (webServices.tourGuide.domainLogic.model.user.User, java.lang.String)
+     */
     @Override
     public void setName(User user, String newName) {
 	this.resource.path(USR_PATH).path("setName")
@@ -120,6 +212,14 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #addLocation(webServices.tourGuide.domainLogic.model.location.Location,
+     * java.lang.String)
+     */
     @Override
     public List<Location> addLocation(Location loc, String userId) {
 	return this.resource.path(LOC_PATH).path("addLocationObject")
@@ -128,6 +228,14 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 		}, loc);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #addLocation(java.lang.String, java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public Location addLocation(String name, String lat, String lng,
 	    String link, String description, String userId) {
@@ -144,6 +252,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 		.post(Location.class);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #getLocations(java.lang.String)
+     */
     @Override
     public List<Location> getLocations(String userId) {
 	return this.resource.path(LOC_PATH).path("retrieveLocationByUserId")
@@ -153,12 +268,27 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     }
 
     // idk how to implement that. we cannot provide this feature
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #getLocations(webServices.tourGuide.domainLogic.model.location.Location)
+     */
     @Override
     public List<Location> getLocations(Location myLocalization) {
 	// TODO Auto-generated method stub
 	return null;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #deleteLocation
+     * (webServices.tourGuide.domainLogic.model.location.Location)
+     */
     @Override
     public void deleteLocation(Location loc) {
 	this.resource.path(LOC_PATH).path("deleteLocation")
@@ -166,6 +296,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #deleteLocation(java.lang.String)
+     */
     @Override
     public void deleteLocation(String name) {
 	this.resource.path(LOC_PATH).path("deleteLocationByName")
@@ -174,6 +311,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #updateLocation(java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public void updateLocation(String name, String description, String link) {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
@@ -185,6 +329,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #deleteLocationByUserId(java.lang.String, java.util.List)
+     */
     @Override
     public void deleteLocationByUserId(String idUser, List<Location> loc) {
 	this.resource.path(LOC_PATH).path("deleteLocationByUserId")
@@ -192,6 +343,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #deleteLocation(java.util.List)
+     */
     @Override
     public void deleteLocation(List<Location> list) {
 	this.resource.path(LOC_PATH).path("deleteLocations")
@@ -199,6 +357,13 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * webServices.tourGuide.resources.interfaces.location.IResourcesLocation
+     * #addLocation(java.lang.String, java.lang.String)
+     */
     @Override
     public Location addLocation(String city, String userId) {
 	Location loc = new Location();
