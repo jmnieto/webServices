@@ -4,7 +4,6 @@ package webServices.tourGuide.domainLogic.model.user;
  * @author Juan Manuel Nieto-Moreno
  */
 
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -67,4 +66,11 @@ public class User {
 	}
 	this.pass = pass;
     }
+
+    @Override
+    public String toString() {
+	return "User [id=" + this.id + ", username=" + this.username + ", pass=" + this.pass
+		+ "]";
+    }
+
 }

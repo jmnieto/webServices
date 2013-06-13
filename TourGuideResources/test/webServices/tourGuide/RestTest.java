@@ -38,6 +38,7 @@ public class RestTest {
 	Location loc = r.addLocation("New York", "40.67", "-73.94",
 		"http://www.nyc.com", "New York City", "1");
 	r.addLocation(l, "2");
+	System.out.println(r.getUsers().toString());
 	System.out.println(loc.toString());
 
     }

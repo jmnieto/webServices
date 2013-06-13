@@ -24,7 +24,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
     private WebResource resource;/* 10.0.0.5 */
-    private static final String REST_PATH = "http://wuidl.no-ip.org:8080/guide/rest/";
+    private static final String REST_PATH = "http://10.0.0.5:8080/guide/rest/";
     private static final String LOC_PATH = "location/";
     private static final String USR_PATH = "user/";
 
@@ -72,7 +72,8 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     @Override
     public List<User> getUser(String nameUser) {
-	return this.resource.path(USR_PATH).path("getUser/").queryParam("name", nameUser).type("text/plain")
+	return this.resource.path(USR_PATH).path("getUser/")
+		.queryParam("name", nameUser).type("text/plain")
 		.accept("application/json").get(new GenericType<List<User>>() {
 		});
     }
@@ -82,6 +83,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	return this.resource.path(USR_PATH).path("getUsers")
 		.accept("application/json").get(new GenericType<List<User>>() {
 		});
+
     }
 
     @Override
