@@ -18,17 +18,27 @@ public class NavigationEvent extends GwtEvent<NavigationEventHandler>{
 	}
 	
 	public static Type<NavigationEventHandler> TYPE = new Type<NavigationEventHandler>();
-	private final Navigation dest;
-	private final LocationDTO location;
+	private final Navigation 	dest;
+	private final LocationDTO 	location;
+	private final String 		err;
 	
 	public NavigationEvent(Navigation dest){
 		this.dest     = dest;
 		this.location = null;
+		this.err = null;
 	}
 	
 	public NavigationEvent(Navigation dest, LocationDTO location) {
 		this.dest 	  = dest;
 		this.location = location;
+		this.err = null;
+	}
+	
+	
+	public NavigationEvent(Navigation dest, String err) {
+		this.dest 	  = dest;
+		this.location = null;
+		this.err = err;
 	}
   
 	public Navigation getDest() {
@@ -37,6 +47,10 @@ public class NavigationEvent extends GwtEvent<NavigationEventHandler>{
 	
 	public LocationDTO getLocation() {
 		return location;
+	}
+	
+	public String getError(){
+		return err;
 	}
 
 	@Override

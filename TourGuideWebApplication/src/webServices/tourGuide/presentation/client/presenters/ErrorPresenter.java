@@ -90,20 +90,24 @@ public class ErrorPresenter extends Presenter{
 //	private CoreServiceAsync 	  core;
 	private String 				  domainActive;
 	private final MenuItem		  optionViewAllOpinion;
+	private String		  error;
 	
-	public ErrorPresenter(HandlerManager eventBus, Display view
-							  //ResourcesServiceAsync resources,
-							  //UsersServiceAsync users,
-							  //CoreServiceAsync core
-							  ) {
+	public ErrorPresenter(HandlerManager eventBus, Display view) {
 		
 		this.eventBus  			  = eventBus;
 		this.view	   			  = view;
 		this.intPoints			  = new ArrayList<LocationDTO>();
+		this.error 				  = null;
 		//this.resources 			  = resources;
 		//this.users	   			  = users;
 		//this.core				  = core;
 		this.optionViewAllOpinion = new MenuItem("", optionAllViewOpinionCommand);
+	}
+	
+	public ErrorPresenter(HandlerManager eventBus, Display view, String error) {
+		
+		this(eventBus,view);
+		this.error = error;
 	}
 	
 	@Override

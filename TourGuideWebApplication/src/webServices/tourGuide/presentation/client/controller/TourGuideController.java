@@ -13,6 +13,7 @@ import webServices.tourGuide.presentation.client.presenters.MyPlacesPresenter;
 import webServices.tourGuide.presentation.client.presenters.PrincipalPresenter;
 import webServices.tourGuide.presentation.client.presenters.RegisterPresenter;
 import webServices.tourGuide.presentation.client.views.configuration.ConfigurationView;
+import webServices.tourGuide.presentation.client.views.error.ErrorView;
 import webServices.tourGuide.presentation.client.views.login.LoginView;
 import webServices.tourGuide.presentation.client.views.map.MapView;
 import webServices.tourGuide.presentation.client.views.myPlaces.MyPlacesView;
@@ -78,6 +79,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			public void onNavigation(NavigationEvent event) {
 				
 				LocationDTO obj = event.getLocation();
+				String err = event.getError();
+				
 				switch (event.getDest()) {
 				
 				case Login:
@@ -101,8 +104,11 @@ public class TourGuideController extends AppController implements ValueChangeHan
 				case About:
 					//goAbout();
 					break;
+				case Error:
+					goError(err);
+					break;
 				default:
-					setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
+					setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "View not found"), errorDisplay.asWidget());
 					break;
 				}
 			}
@@ -128,8 +134,7 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				//TODO ERROR screen.
-			}
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "It is not possible to login. Try later"), errorDisplay.asWidget());			}
 		});
 	}
 	
@@ -152,8 +157,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				//TODO ERROR screen.
-			}
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "It is not possible to register. Try later"), 
+						errorDisplay.asWidget());			}
 		});
 	}
 	
@@ -172,8 +177,7 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				//TODO pantalla de error.
-			}
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "Loading problem"), errorDisplay.asWidget());			}
 		});
 	}
 	
@@ -197,8 +201,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				//TODO pantalla de error.
-			}
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay,"Map doesn't work right now. Try it later"), 
+						errorDisplay.asWidget());			}
 		});
 	}
 	
@@ -219,8 +223,34 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			@Override
 			public void onFailure(Throwable caught) {
 				//TODO pantalla de error.
-				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay,"It is not possible to load MyPlaces. Try it later"), 
+						errorDisplay.asWidget());
 			}
+		});
+	}
+	
+	private void goError(final String error) {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				// Carga de la pantalla principal...
+				if (errorDisplay == null) {
+					errorDisplay = new ErrorView();
+		        }
+				
+				//setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getPanelContainer());
+				if(error == null){
+					setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, error), errorDisplay.asWidget());
+				}else{
+					setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "Undefined error"), errorDisplay.asWidget());
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay, "Error page can't be loaded. That's funny cuz this is an error page ;)"), 
+						errorDisplay.asWidget());			}
 		});
 	}
 	
@@ -241,7 +271,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			@Override
 			public void onFailure(Throwable caught) {
 				//TODO pantalla de error.
-				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay,"Configuartion page can't be loaded. Try it later."), 
+						errorDisplay.asWidget());
 			}
 		});
 	}
