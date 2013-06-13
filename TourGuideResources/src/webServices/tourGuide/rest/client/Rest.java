@@ -72,9 +72,9 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     @Override
     public List<User> getUser(String nameUser) {
-	return this.resource.path(USR_PATH).path("getUser/")
-		.queryParam("name", nameUser).type("text/plain")
-		.accept("application/json").get(new GenericType<List<User>>() {
+	return this.resource.path(USR_PATH).path("getUser/" + nameUser)
+		.type("text/plain").accept("application/json")
+		.get(new GenericType<List<User>>() {
 		});
     }
 
