@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("users")
 public interface UsersService extends RemoteService {
 	/**
+	 *
 	 * Utility class for simplifying access to the instance of async service.
 	 */
 	public static class Util {
