@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.tagext.TryCatchFinally;
 
-import webServices.tourGuide.domainLogic.model.user.Attribute;
-import webServices.tourGuide.domainLogic.model.user.RoleUser;
 import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.domainLogic.services.interfaces.user.UsersService;
 import webServices.tourGuide.presentation.dataTransferObjects.ResponseDTO;
@@ -15,7 +14,10 @@ import webServices.tourGuide.presentation.dataTransferObjects.ResponseLoginDTO;
 import webServices.tourGuide.presentation.dataTransferObjects.UserDTO;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
+import webServices.tourGuide.domainLogic.services.rest.*;
 
+import com.google.gwt.aria.client.Attribute;
+import com.google.gwt.thirdparty.javascript.jscomp.mozilla.rhino.ast.TryStatement;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 
@@ -32,7 +34,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		//logger.info("Initialising the user management service...");
 		
 		//It has to be changed to a REST consumer
-		usersManager = (IResourcesUsers) new UserAdministration();
+		usersManager = new Rest();//(IResourcesUsers) new UserAdministration();
 		
 		//logger.info("The user management service was successfully initialised.");
 	}
@@ -48,10 +50,13 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		
 		ResponseLoginDTO result = new ResponseLoginDTO(true);
 		
+		List<User> userList = null;
 		User user = null;
 		try {
 			if(usersManager.existUser(name) && usersManager.checkPassword(name, pass)){
-				user = usersManager.getUser(name);
+				userList = usersManager.getUser(name);
+				user = userList.get(0);
+
 			}else{
 				result.setLoginSuccessful(false);
 				result.setMessage("Username or Password incorrect.");
@@ -67,11 +72,11 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 				
 		// User could be connected on other session.
-		if(user.isConnect()){
-			result.setLoginSuccessful(false);
-			result.setMessage("User " + name + "is already logged.");
-			return result;
-		}
+//		if(user.isConnect()){
+//			result.setLoginSuccessful(false);
+//			result.setMessage("User " + name + "is already logged.");
+//			return result;
+//		}
 		
 		connectOrDisconnect(user, true);
 		
@@ -91,10 +96,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 		
 		User user = null;
+		List<User> userList = null;
 		
 		try {
 			if(usersManager.existUser(userDTO.getName())){
-				user = usersManager.getUser(userDTO.getName());
+				userList = usersManager.getUser(userDTO.getName());
+				user = userList.get(0);
 			}else{
 				throw new IllegalArgumentException("It was impossible to find the user.");
 			}
@@ -103,9 +110,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			throw new IllegalStateException("Error in logout.");
 		}
 		
-		if(!user.isConnect()){
-			throw new IllegalStateException("User " + user.getUsername() + " not connected.");
-		}
+//		if(!user.isConnect()){
+//			throw new IllegalStateException("User " + user.getUsername() + " not connected.");
+//		}
 
 		connectOrDisconnect(user, false);
 			
@@ -121,11 +128,15 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			result = false;
 		}else{
 			User user = null;
-			
+			List<User> userList = null;
 			try {
+				System.out.println(".........PREGUNTO SI EXISTE");
 				if(usersManager.existUser(userDTO.getName())){
-					user = usersManager.getUser(userDTO.getName());
+					System.out.println(".........PUES POYICA, SI EXISTE");
+					userList = usersManager.getUser(userDTO.getName());
+					user = userList.get(0);
 				}else{
+					System.out.println(".........LA VIEN NO EXISTE EL USER");
 					result = false;
 					removeAttributeSession();
 				}
@@ -135,16 +146,16 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			}
 			
 			// If the user is connected, we will interrupt the method...
-			if(user.isConnect()){
-				result = false;
-				removeAttributeSession();
-			}else{
-				connectOrDisconnect(user, true);
-				result = true;
-			}
+//			if(user.isConnect()){
+//				result = false;
+//				removeAttributeSession();
+//			}else{
+//				connectOrDisconnect(user, true);
+//				result = true;
+//			}
 		}
 		
-		return result;
+		return result = true;
 	}
 	
 	@Override
@@ -152,11 +163,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		
 		UserDTO userDTO = getUserConnected();
 		if (userDTO != null ){
+			List<User> userList = null;
 			User user = null;
 			
 			try {
 				if(usersManager.existUser(userDTO.getName())){
-					user = usersManager.getUser(userDTO.getName());
+					userList = usersManager.getUser(userDTO.getName());
 				}else{
 					removeAttributeSession();
 				}
@@ -170,7 +182,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	}
 	
 	private void connectOrDisconnect(User user, boolean connect){
-		user.setConnect(connect);
+		//user.setConnect(connect);
 		
 		try {
 			usersManager.synchronizeUser(user);
@@ -217,11 +229,11 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		//logger.info("Anyadiendo un nuevo usuario con username:" + name);
 		
 		//logger.trace("Creando el atriburo especifico...");
-		Attribute atri = new Attribute("ShowAllOpinions", "true");
+		//Attribute atri = new Attribute("ShowAllOpinions", "true");
 		
 		//logger.trace("Creando usuario con atributo...");
-		User user = new User(name, pass, RoleUser.valueOf(role));
-		user.getAttibutes().add(atri);
+		User user = new User(name, pass);
+		//user.getAttibutes().add(atri);
 		
 		try {
 			usersManager.addUser(user);
@@ -245,8 +257,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 		
 		try {
-			User user = usersManager.getUser(userDTO.getName());
-					
+			List<User> userList = usersManager.getUser(userDTO.getName());
+			User user = userList.get(0);		
 			usersManager.setName(user, newName);
 			
 			userDTO.setName(newName);
@@ -272,7 +284,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 				throw new IllegalArgumentException("Password wrong.");
 			}
 			
-			User user = usersManager.getUser(userDTO.getName());
+			//User user = usersManager.getUser(userDTO.getName());
+			List<User> userList = usersManager.getUser(userDTO.getName());
+			User user = userList.get(0);
 			if(user == null){
 				throw new IllegalArgumentException("Usuario no encontrado.");
 			}
@@ -296,19 +310,20 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		}
 		
 		//logger.trace("Recuperando el usuario del sistema.");
-		User user = usersManager.getUser(userDto.getName());
-		
+		//User user = usersManager.getUser(userDto.getName());
+		List<User> userList = usersManager.getUser(userDto.getName());
+		User user = userList.get(0);
 		if(user == null){
 			//logger.error("No existe ningun usuario con el nombre: " + userDto.getName());
 			throw new IllegalArgumentException("No se encontro ningun usuario registrado en el sistema con el nombre:" + userDto.getName());
 		}
 		
 		//logger.trace("Estrableciendo atributo de showAllOpinions.");
-		for(Attribute attri : user.getAttibutes()){
-			if(attri.getName().equals("ShowAllOpinions")){
-				attri.setValue(Boolean.toString(allOpinions));
-			}
-		}
+//		for(Attribute attri : user.getAttibutes()){
+//			if(attri.getName().equals("ShowAllOpinions")){
+//				attri.setValue(Boolean.toString(allOpinions));
+//			}
+//		}
 		
 		//logger.trace("Sincronizando usuario.");
 		usersManager.synchronizeUser(user);
@@ -326,7 +341,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 			throw new IllegalArgumentException("Parametros introducidos nulos.");
 		}
 		
-		User user = usersManager.getUser(name);
+		//User user = usersManager.getUser(name);
+		List<User> userList = usersManager.getUser(name);
+		User user = userList.get(0);
 		
 		if(user == null){
 			//logger.error("Se intento borrar un usuario que no existe.");
@@ -345,35 +362,36 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	public List<UserDTO> getUsers() {
 		//logger.trace("Obteniendo los usuarios del sistema.");
 		List<UserDTO> result = new ArrayList<UserDTO>();
-		UserDTO userConected = getUserConnected();
+		//UserDTO userConected = getUserConnected();
 		
-		if(userConected == null){
-//			//logger.trace("No se encontro la variable del usuario.");
-			throw new IllegalStateException("No encontro ningun usuario conectado.");
-		}
+//		if(userConected == null){
+////			//logger.trace("No se encontro la variable del usuario.");
+//			throw new IllegalStateException("No encontro ningun usuario conectado.");
+//		}
 		
-		for(User user : usersManager.getUsers()){
-			if(user.getId().compareTo(userConected.getId()) != 0){
+		try{
+			for(User user : usersManager.getUsers()){
+			//if(user.getId().compareTo(userConected.getId()) != 0){
 				result.add(convertUserDTO(user));
-			}
+			//}
 		}
-		
+		}catch(Exception exc){
+			System.out.println(exc);
+		}
 		return result;
 	}
 	
 	private UserDTO convertUserDTO(User user) {
 		boolean showAllOpinios = false;
 		
-		for(Attribute attri: user.getAttibutes()){
-			if(attri.getName().equals("ShowAllOpinions")){
-				showAllOpinios = Boolean.parseBoolean(attri.getValue());
-				break;
-			}
-		}
+//		for(Attribute attri: user.getAttibutes()){
+//			if(attri.getName().equals("ShowAllOpinions")){
+//				showAllOpinios = Boolean.parseBoolean(attri.getValue());
+//				break;
+//			}
+//		}
 		return new UserDTO(user.getId(), user.getUsername(),
-				RoleUser.Administrator.equals(user.getRole()),
-				user.getRole().ordinal() <= RoleUser.Collaborator.ordinal(),
-				showAllOpinios);
+				showAllOpinios,showAllOpinios,showAllOpinios);
 	}
 	
 	private UserDTO getAttributeSession(String name){

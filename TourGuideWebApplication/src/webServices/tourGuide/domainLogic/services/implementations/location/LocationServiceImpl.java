@@ -9,6 +9,7 @@ import webServices.tourGuide.domainLogic.services.interfaces.location.LocationSe
 import webServices.tourGuide.presentation.dataTransferObjects.LocationDTO;
 import webServices.tourGuide.presentation.dataTransferObjects.ResponseLocationDTO;
 import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
+import webServices.tourGuide.domainLogic.services.rest.*;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -28,7 +29,7 @@ public class LocationServiceImpl extends RemoteServiceServlet implements Locatio
 		//logger.info("Initialising the user management service...");
 		
 		//It has to be changed to a REST consumer
-		locationManager = (IResourcesLocation) new LocationAdministration();
+		locationManager = new Rest();
 		
 		//logger.info("The user management service was successfully initialised.");
 	}
