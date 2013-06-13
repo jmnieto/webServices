@@ -5,12 +5,20 @@ import webServices.tourGuide.domainLogic.services.interfaces.user.UsersServiceAs
 import webServices.tourGuide.presentation.client.controller.prototype.AppController;
 import webServices.tourGuide.presentation.client.events.NavigationEvent;
 import webServices.tourGuide.presentation.client.events.NavigationEventHandler;
+import webServices.tourGuide.presentation.client.presenters.ConfigurationPresenter;
+import webServices.tourGuide.presentation.client.presenters.ErrorPresenter;
 import webServices.tourGuide.presentation.client.presenters.LoginPresenter;
 import webServices.tourGuide.presentation.client.presenters.MapPresenter;
+import webServices.tourGuide.presentation.client.presenters.MyPlacesPresenter;
 import webServices.tourGuide.presentation.client.presenters.PrincipalPresenter;
+import webServices.tourGuide.presentation.client.presenters.RegisterPresenter;
+import webServices.tourGuide.presentation.client.views.configuration.ConfigurationView;
 import webServices.tourGuide.presentation.client.views.login.LoginView;
-import webServices.tourGuide.presentation.client.views.principal.PrincipalView;
 import webServices.tourGuide.presentation.client.views.map.MapView;
+import webServices.tourGuide.presentation.client.views.myPlaces.MyPlacesView;
+import webServices.tourGuide.presentation.client.views.principal.PrincipalView;
+import webServices.tourGuide.presentation.client.views.register.RegisterView;
+import webServices.tourGuide.presentation.dataTransferObjects.LocationDTO;
 import webServices.tourGuide.presentation.dataTransferObjects.UserDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -24,8 +32,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class TourGuideController extends AppController implements ValueChangeHandler<String>{
 	
 	private LoginPresenter.Display loginDisplay;
+	private RegisterPresenter.Display registerDisplay;
 	private PrincipalPresenter.Display principalDisplay;
 	private MapPresenter.Display mapDisplay;
+	private MyPlacesPresenter.Display myPlacesDisplay;
+	private ErrorPresenter.Display errorDisplay;
+	private ConfigurationPresenter.Display ConfigurationDisplay;
 	
 	public TourGuideController(){
 		//Establecemos el item principal
@@ -64,6 +76,8 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			
 			@Override
 			public void onNavigation(NavigationEvent event) {
+				
+				LocationDTO obj = event.getLocation();
 				switch (event.getDest()) {
 				
 				case Login:
@@ -73,10 +87,22 @@ public class TourGuideController extends AppController implements ValueChangeHan
 					goPrincipal();
 					break;
 				case Map:
-					goMap();
+					goMap(obj);
+					break;
+				case MyPlaces:
+					goMyPlaces();
+					break;
+				case Register:
+					goRegister();
+					break;
+				case Configuration:
+					goConfiguration();
+					break;
+				case About:
+					//goAbout();
 					break;
 				default:
-					//TODO ERROR Screen
+					setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
 					break;
 				}
 			}
@@ -107,6 +133,30 @@ public class TourGuideController extends AppController implements ValueChangeHan
 		});
 	}
 	
+	private void goRegister() {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				if(registerDisplay == null){
+					registerDisplay = new RegisterView();
+				}
+				
+				if(getContainer() != null){
+					getContainer().clear();
+				}
+				
+				setPrincipal(new RegisterPresenter(getEventBus(), registerDisplay, UsersService.Util.getInstance()), registerDisplay.asWidget());
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				//TODO ERROR screen.
+			}
+		});
+	}
+	
 	private void goPrincipal() {
 		GWT.runAsync(new RunAsyncCallback() {
 			
@@ -127,7 +177,7 @@ public class TourGuideController extends AppController implements ValueChangeHan
 		});
 	}
 	
-	private void goMap() {
+	private void goMap(final LocationDTO obj) {
 		GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
@@ -138,7 +188,11 @@ public class TourGuideController extends AppController implements ValueChangeHan
 		        }
 				
 				//setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getPanelContainer());
-				setPresenterActive(new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget());
+				if(obj == null){
+					setPresenterActive(new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget());
+				}else{
+					setPresenterActive(new MapPresenter(getEventBus(), mapDisplay, obj), mapDisplay.asWidget());
+				}
 			}
 			
 			@Override
@@ -147,6 +201,51 @@ public class TourGuideController extends AppController implements ValueChangeHan
 			}
 		});
 	}
+	
+	private void goMyPlaces() {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				// Carga de la pantalla principal...
+				if (myPlacesDisplay == null) {
+					myPlacesDisplay = new MyPlacesView();
+		        }
+				
+				//setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getPanelContainer());
+				setPresenterActive(new MyPlacesPresenter(getEventBus(), myPlacesDisplay), myPlacesDisplay.asWidget());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				//TODO pantalla de error.
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
+			}
+		});
+	}
+	
+	private void goConfiguration() {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				// Carga de la pantalla principal...
+				if (ConfigurationDisplay == null) {
+					ConfigurationDisplay = new ConfigurationView();
+		        }
+				
+				//setPrincipal( new MapPresenter(getEventBus(), mapDisplay), mapDisplay.asWidget(), mapDisplay.getPanelContainer());
+				setPresenterActive(new ConfigurationPresenter(getEventBus(), ConfigurationDisplay), ConfigurationDisplay.asWidget());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				//TODO pantalla de error.
+				setPresenterActive(new ErrorPresenter(getEventBus(), errorDisplay), errorDisplay.asWidget());
+			}
+		});
+	}
+
 	
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {

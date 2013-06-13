@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class PrincipalView extends Composite implements PrincipalPresenter.Display{
 	private static final String UPLOAD_ACTION_URL = GWT.getModuleBaseURL() + "DownloadLog";
@@ -24,6 +26,12 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 	@UiField FlowPanel CentralPanel;
 	@UiField FormPanel formDownload;
 	@UiField FlowPanel ListPanel;
+	@UiField HorizontalPanel MenuContainer;
+	@UiField HorizontalPanel Picture;
+	@UiField ToggleButton ButtonMap;
+	@UiField ToggleButton ButtonPlaces;
+	@UiField ToggleButton ButtonConfiguration;
+	@UiField ToggleButton ButtonLogOut;
 	
 
 	// dominio About;
@@ -149,6 +157,30 @@ public class PrincipalView extends Composite implements PrincipalPresenter.Displ
 	public Panel getPanelPlaces() {
 		// TODO Auto-generated method stub
 		return ListPanel;
+	}
+
+	@Override
+	public HasClickHandlers getMapButton() {
+		// TODO Auto-generated method stub
+		return ButtonMap;
+	}
+
+	@Override
+	public HasClickHandlers getMyPlacesButton() {
+		// TODO Auto-generated method stub
+		return ButtonPlaces;
+	}
+
+	@Override
+	public HasClickHandlers getConfigurationButton() {
+		// TODO Auto-generated method stub
+		return ButtonConfiguration;
+	}
+
+	@Override
+	public HasClickHandlers getLogOutButton() {
+		// TODO Auto-generated method stub
+		return ButtonLogOut;
 	}
 
 

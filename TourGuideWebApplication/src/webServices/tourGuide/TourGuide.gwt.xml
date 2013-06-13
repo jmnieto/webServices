@@ -8,7 +8,9 @@
 <module rename-to='tourguide'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name="com.google.gwt.user.User"/>
+  <inherits name="com.google.gwt.user.theme.standard.Standard"/>
   <inherits name="com.google.gwt.maps.GoogleMaps"/>
+ <!--   <inherits name= "com.google.code.gwt.geolocation.Html5Geolocation"/> -->
   
 
   <!-- Inherit the default GWT style sheet.  You can change       -->

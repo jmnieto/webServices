@@ -1,17 +1,19 @@
 package webServices.tourGuide.presentation.client.presenters;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import webServices.tourGuide.domainLogic.services.interfaces.user.UsersServiceAsync;
 import webServices.tourGuide.presentation.client.events.NavigationEvent;
 import webServices.tourGuide.presentation.client.presenters.prototype.Presenter;
+import webServices.tourGuide.presentation.client.util.Loading;
+import webServices.tourGuide.presentation.dataTransferObjects.UserDTO;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.geom.LatLng;
-import com.google.gwt.maps.client.overlay.Icon;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -22,29 +24,6 @@ import com.google.gwt.user.client.ui.Widget;
 //TABLE
 
 public class PrincipalPresenter extends Presenter{
-	
-	//Class to store all the points info.
-	public class InterestPoint{
-		private LatLng _point;
-		private String _name;
-		private String _info;
-		
-		public InterestPoint(LatLng point, String name, String info){
-			this._point = point;
-			this._info = info;
-			this._name = name;
-		}
-		
-		public LatLng getPoint(){
-			return this._point;
-		}
-		public String getName(){
-			return this._name;
-		}
-		public String getInfo(){
-			return this._info;
-		}
-	}
 	
 	
 	public interface Display{
@@ -75,6 +54,11 @@ public class PrincipalPresenter extends Presenter{
 		
 		public void clear();
 		
+		public HasClickHandlers getMapButton();
+		public HasClickHandlers getMyPlacesButton();
+		public HasClickHandlers getConfigurationButton();
+		public HasClickHandlers getLogOutButton();
+		
 		
 		//MAP
 		public Panel getPanelMap();
@@ -85,17 +69,8 @@ public class PrincipalPresenter extends Presenter{
 	private HandlerManager 	eventBus;
 	private Display 		view;
 	
-	//MAPS VARIABLES
-	private MapWidget       map;
-	private LatLng 			initialLocate;
-	private Icon			baseIcon;
-	List<LatLng>			interestPoints; //List of places to mark
-	List<String>			interestInfo; //List of info from places to mark
-	List<InterestPoint>     intPoints; //List of InterestPoints.
-	
-	//TABLE VARIABLES
-	private String placeName;
-	
+	private UsersServiceAsync usersManager;
+
 //	Mensajes de Item optionviewAllopinion
 	private final String DISABLE_OPTION = "Disable all opinion";
 	private final String ENABLE_OPTION  = "Enable all opinion";
@@ -103,7 +78,7 @@ public class PrincipalPresenter extends Presenter{
 //	private ResourcesServiceAsync resources;
 //	private UsersServiceAsync	  users;
 //	private CoreServiceAsync 	  core;
-	private String 				  domainActive;
+	private String 				  location;
 	private final MenuItem		  optionViewAllOpinion;
 	
 	public PrincipalPresenter(HandlerManager eventBus, Display view
@@ -114,9 +89,6 @@ public class PrincipalPresenter extends Presenter{
 		
 		this.eventBus  			  = eventBus;
 		this.view	   			  = view;
-		this.interestPoints		  = new ArrayList<LatLng>();
-		this.interestInfo		  = new ArrayList<String>();
-		this.intPoints			  = new ArrayList<InterestPoint>();
 		//this.resources 			  = resources;
 		//this.users	   			  = users;
 		//this.core				  = core;
@@ -125,87 +97,21 @@ public class PrincipalPresenter extends Presenter{
 	
 	@Override
 	public void init() {
-		
-		
-		//Load Map
-		
-		
-		/*TEST*/
-		//interestPoints.add(LatLng.newInstance(37.4419, -122.1419));
-		//interestInfo.add("Palo alto lo peta. Asi que ven a verlo.");
-		/*InterestPoint pt = new InterestPoint(LatLng.newInstance(37.4419, -122.1419),"Sitio A","Palo alto lo peta. Asi que ven a verlo.");
-		intPoints.add(pt);
-		InterestPoint pt2 = new InterestPoint(LatLng.newInstance(38.4419, -122.1419),"Sitio B","Sabes que me comia ahora?s.");
-		intPoints.add(pt2);*/
-		/*TEST END*/
-		
-		/*MAP*/
-		//We should get this initial location from the server.
-		/*initialLocate = LatLng.newInstance(37.4419, -122.1419);
-		//Load the map with the localization.
-		loadMap(initialLocate);
-		//Print the markers around you
-		//printPlaces(interestPoints, interestInfo);
-		printPlaces (intPoints);
-		//view the final map
-		//view.getPanelMap().add(map);
-		/*MAP END*/
-		
-		/*TABLE*/
-	   /* CellTable<InterestPoint> table = new CellTable<InterestPoint>();
-	    //table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-	    
-	    // Add a text column to show the name.
-	    TextColumn<InterestPoint> nameColumn = new TextColumn<InterestPoint>() {
-	      @Override
-	      public String getValue(InterestPoint object) {
-	        return object.getName();
-	      }
-	    };
-	    table.addColumn(nameColumn, "Place Name");
-	    
-	    // Add a text column to show the name.
-	    TextColumn<InterestPoint> infoColumn = new TextColumn<InterestPoint>() {
-	      @Override
-	      public String getValue(InterestPoint object) {
-	        return object.getInfo();
-	      }
-	    };
-	    table.addColumn(infoColumn, "Information");
-	    
-	    // Add a selection model to handle user selection.
-	    final SingleSelectionModel<InterestPoint> selectionModel = new SingleSelectionModel<InterestPoint>();
-	    table.setSelectionModel(selectionModel);
-	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-	      public void onSelectionChange(SelectionChangeEvent event) {
-	        InterestPoint selected = selectionModel.getSelectedObject();
-	        if (selected != null) {
-	          Window.alert("You selected: " + selected.getInfo());
-	        }
-	      }
-	    });
-	    
-	 // Set the total row count. This isn't strictly necessary, but it affects
-	    // paging calculations, so its good habit to keep the row count up to date.
-	    table.setRowCount(intPoints.size(), true);
-
-	    // Push the data into the widget.
-	    table.setRowData(0, intPoints);
-
-	    // Add it to the root panel.
-	    view.getPanelMap().add(table);*/
-	    
-		/*TABLE END*/
-	    
-	    
+		addHandlerRegistration(view.getMapButton().addClickHandler(MapButton));
+		addHandlerRegistration(view.getMyPlacesButton().addClickHandler(PlacesButton));
+		addHandlerRegistration(view.getConfigurationButton().addClickHandler(ConfigurationButton));
+		addHandlerRegistration(view.getLogOutButton().addClickHandler(LogOutButton));
 		/* Cargamos los dominios disponibles */
-		//loadDomain();
+		//loadMenu();
 		
 		/* Barra desplazadora */
 		//addClickHandler(view.getCollapsible(),  collapsible);
 		
 		/* Funciones del sistema */
 		//addClickHandler(view.getOpinions(), 	opinions);
+		
+		//addDomain("Map");
+		//addDomain("Places");
 		
 	}
 
@@ -230,63 +136,107 @@ public class PrincipalPresenter extends Presenter{
 	public void finish() {
 		view.clear();
 	}
+
 	
 	
-	/****MAPS ON*****/
-	/*private void loadMap(LatLng point) {
-	    map = new MapWidget(point, 13);
-	    map.setSize("500px", "500px");
-	    map.setUIToDefault();
-
-	    // Create a base icon for all of our markers that specifies the
-	    // shadow, icon dimensions, etc.
-	    baseIcon = Icon.newInstance();
-	    baseIcon.setShadowURL("http://www.google.com/mapfiles/shadow50.png");
-	    baseIcon.setIconSize(Size.newInstance(20, 34));
-	    baseIcon.setShadowSize(Size.newInstance(37, 34));
-	    baseIcon.setIconAnchor(Point.newInstance(9, 34));
-	    baseIcon.setInfoWindowAnchor(Point.newInstance(9, 2));
-	    // TOOD(sgross): undocumented?
-	    // baseIcon.setInfoShadowAnchor(new GPoint(18, 25));
-	  }	
+	/**************************MENU*****************************/
 	
-	private Marker createMarker(LatLng point, final String infoMarker, int index) {
-	    // Create a lettered icon for this point using our icon class
-	    final char letter = (char) ('A' + index);
-	    Icon icon = Icon.newInstance(baseIcon);
-	    icon.setImageURL("http://www.google.com/mapfiles/marker" + letter + ".png");
-	    MarkerOptions options = MarkerOptions.newInstance();
-	    options.setIcon(icon);
-	    final Marker marker = new Marker(point, options);
+//////////////////////////////Map button///////////////////////////////
+ClickHandler MapButton = new ClickHandler() {
 
-	    marker.addMarkerClickHandler(new MarkerClickHandler() {
+	@Override
+	public void onClick(ClickEvent event) {
+		eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map));
+	}
+};
 
-	      public void onClick(MarkerClickEvent event) {
-	        InfoWindow info = map.getInfoWindow();
-	        info.open(event.getSender(), new InfoWindowContent(infoMarker));
-	      }
+//////////////////////////////Place button///////////////////////////////
+ClickHandler PlacesButton = new ClickHandler() {
 
-	    });
+	@Override
+	public void onClick(ClickEvent event) {
+		eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.MyPlaces));
+	}
+};
 
-	    return marker;
-	  }
+//////////////////////////////Config button///////////////////////////////
+ClickHandler ConfigurationButton = new ClickHandler() {
+
+	@Override
+	public void onClick(ClickEvent event) {
+			eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Configuration));
+	}
+};
+
+//////////////////////////////Config button///////////////////////////////
+ClickHandler LogOutButton = new ClickHandler() {
+
+@Override
+public void onClick(ClickEvent event) {
 	
-	//private void printPlaces(List<LatLng> points, List<String> info){
-	private void printPlaces(List<InterestPoint> points){
-		map.clearOverlays();
+	usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
 		
-		//Add markers to the map at location in points
-		for(int i = 0; i < points.size(); i++){
-			LatLng point = points.get(i).getPoint();
-			String infoMarker = points.get(i).getInfo();
-			map.addOverlay(createMarker(point, infoMarker, i));
+		@Override
+		public void onSuccess(UserDTO result) {
+			usersManager.logoutUser(new AsyncCallback<Void>() {
+				
+				@Override
+				public void onSuccess(Void result) {
+					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Login));
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			
 		}
 		
-	}*/
-	/****MAPS OFF****/
-	
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+//
+}
+};
 	
 	/************************ Dominios *************************/
+	
+
+private void refreshView() {
+	
+	Loading.getInstance().hideDialog(getPresenter());
+	
+	for(ToggleButton button : view.getFunction()){
+		if(button.getValue()){
+			NavigationEvent event;
+			String text = button.getText(); 
+
+			if(text.equals("Map")){
+				event = new NavigationEvent(NavigationEvent.Navigation.Map);
+			}else if(text.equals("My Places")){
+				event = new NavigationEvent(NavigationEvent.Navigation.MyPlaces);
+			}else if(text.equals("Configuration")){
+				event = new NavigationEvent(NavigationEvent.Navigation.Configuration);
+			}else {
+				event = new NavigationEvent(NavigationEvent.Navigation.Error);
+			}
+		
+			eventBus.fireEvent(event);
+			break;
+		}
+	}
+	
+	// cargamos la taxonomia
+	//loadTaxonomy();
+}
+
+	
 //	private void loadDomain() {
 //		Loading.getInstance().showDialog("Loading available domains.", getPresenter());
 //		
@@ -324,34 +274,34 @@ public class PrincipalPresenter extends Presenter{
 	 * Crea un boton representando el dominio que se introduce como parametro y le asigna y manejador de evento.
 	 * @param domain
 	 */
-//	private void addDomain(String domain) {
-//
-//		//creamos el nuevo button
-//		ToggleButton button = new ToggleButton(domain);
-//		
-//		//le asignamos el estilo adecuado
-//		button.setStyleName("MenuBar-Principal-Item");
-//		
-//		//creamos un handle para el nuevo dominio
-//		addClickHandler(button, new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				if(processButton(event, view.getItems())){
-//					
-//					ToggleButton button = (ToggleButton)event.getSource();
-//					
-//					// Guardamos el dominio actual
-//					domainActive = button.getText().toLowerCase();
-//					
-//					refreshView();
-//				}
-//			}
-//		});
-//		
-//		// add domain a la vista
-//		view.addItem(button);
-//	}
+	private void addDomain(String domain) {
+
+		//creamos el nuevo button
+		ToggleButton button = new ToggleButton(domain);
+		
+		//le asignamos el estilo adecuado
+		button.setStyleName("MenuBar-Principal-Item");
+		
+		//creamos un handle para el nuevo dominio
+		addClickHandler(button, new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(processButton(event, view.getItems())){
+					
+					ToggleButton button = (ToggleButton)event.getSource();
+					
+					// Guardamos el dominio actual
+					location = button.getText().toLowerCase();
+					
+					refreshView();
+				}
+			}
+		});
+		
+		// add domain a la vista
+		view.addItem(button);
+	}
 
 	/**
 	 * Crea el perfil del usuario conectado, cargando los item necesarios acordes con sus privilegios.
@@ -602,37 +552,7 @@ public class PrincipalPresenter extends Presenter{
 //	
 //	
 //	    
-//	private void refreshView() {
-//		
-//		Loading.getInstance().hideDialog(getPresenter());
-//		
-//		for(ToggleButton button : view.getFunction()){
-//			if(button.getValue()){
-//				NavigationEvent event;
-//				String text = button.getText(); 
-//
-//				if(text.equals("Opinions Summary")){
-//					event = new NavigationEvent(NavigationEvent.Navigation.OpinionsIndex, domainActive);
-//				}else if(text.equals("Comparatives")){
-//					event = new NavigationEvent(NavigationEvent.Navigation.Comparatives, domainActive);
-//				}else if(text.equals("Simple Text")){
-//					event = new NavigationEvent(NavigationEvent.Navigation.SimpleText, domainActive);
-//				}else if(text.equals("Upload Config")){
-//					event = new NavigationEvent(NavigationEvent.Navigation.UploadConfig, domainActive);
-//				}else{
-//					//TODO pantalla de error.
-//					event = new NavigationEvent(NavigationEvent.Navigation.OpinionsIndex, domainActive);
-//				}
-//				
-//				eventBus.fireEvent(event);
-//				break;
-//			}
-//		}
-//		
-//		// cargamos la taxonomia
-//		loadTaxonomy();
-//	}
-//	
+	
 //	ClickHandler domainAbout = new ClickHandler() {
 //		
 //		@Override
@@ -661,39 +581,39 @@ public class PrincipalPresenter extends Presenter{
 //		});
 //	}
 //	
-//	/**
-//	 * Procesa el estado del boton que genera el evento.
-//	 * @param event
-//	 * @return cierto si se debe atender al evento.
-//	 */
-//	private boolean processButton(ClickEvent event, List<ToggleButton> domain){
-//		boolean result = false;
-//		
-//		ToggleButton button = (ToggleButton)event.getSource();
-//		//Si el boton esta desactivado quiere decir que esta activado y se pulso sobre el por 
-//		// lo que no se tratara el evento.
-//		if(button.getValue()){
-//			deselectDomain(button, domain);
-//			result = true;
-//		}else{
-//			button.setValue(true);
-//		}
-//		
-//		return result;
-//	}
+	/**
+	 * Procesa el estado del boton que genera el evento.
+	 * @param event
+	 * @return cierto si se debe atender al evento.
+	 */
+	private boolean processButton(ClickEvent event, List<ToggleButton> domain){
+		boolean result = false;
+		
+		ToggleButton button = (ToggleButton)event.getSource();
+		//Si el boton esta desactivado quiere decir que esta activado y se pulso sobre el por 
+		// lo que no se tratara el evento.
+		if(button.getValue()){
+			deselectDomain(button, domain);
+			result = true;
+		}else{
+			button.setValue(true);
+		}
+		
+		return result;
+	}
 //	
 //	
 //	/**
 //	 * Dado un boton del dominio pulsado se desactivaran todos los demas.
 //	 */
-//	private void deselectDomain (ToggleButton domainSelected, List<ToggleButton> domain){
-//		
-//		for(ToggleButton button : domain){
-//			if(!button.equals(domainSelected)){
-//				button.setValue(false);
-//			}
-//		}
-//	}
+	private void deselectDomain (ToggleButton domainSelected, List<ToggleButton> domain){
+		
+		for(ToggleButton button : domain){
+			if(!button.equals(domainSelected)){
+				button.setValue(false);
+			}
+		}
+	}
 //
 //	/************************************ Funciones del Menu ****************************************************/
 //	ClickHandler opinions = new ClickHandler() {

@@ -49,12 +49,6 @@ import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.google.gwt.geolocation.client.PositionError;
 
-//import com.google.code.gwt.geolocation.client.Coordinates;
-//import com.google.code.gwt.geolocation.client.Geolocation;
-//import com.google.code.gwt.geolocation.client.Position;
-//import com.google.code.gwt.geolocation.client.PositionCallback;
-//import com.google.code.gwt.geolocation.client.PositionError;
-//import com.google.code.gwt.geolocation.client.PositionOptions;
 
 
 
@@ -166,6 +160,11 @@ public class MapPresenter extends Presenter{
 		view.clear();
 	}
 	
+	public boolean search(String city){
+		
+		
+		return false;
+	}
 	
 	ClickHandler SearchButton = new ClickHandler() {
 
@@ -173,7 +172,9 @@ public class MapPresenter extends Presenter{
 		public void onClick(ClickEvent event) {
 			
 			/*LOOK IN GOOGLE*/
-			
+			if(!search(view.getSearchText())){
+				eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+			}
 			
 			/*ADD TO OUR DB*/
 			usersManager.getUserConnected(new AsyncCallback<UserDTO>() {

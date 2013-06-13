@@ -4,17 +4,20 @@
 	
 	<g:HTMLPanel styleName="ContenedorPrincipal">
 		<g:FlowPanel 		styleName="MenuBar-Principal" ui:field="MenuBar">
-			<g:Image 		styleName="MenuBar-Logo" url="styles/images/foot.png" width="" height=""/>
-			<g:Label 		styleName="MenuBar-LogoText" text="TourGuide"/>
-			<g:Label 		styleName="MenuBar-LogoText" text="Where am I?"/>
-			<g:Label 		styleName="MenuBar-LogoText" text="My places"/>
-			<g:SimplePanel styleName="Item-Separador"/>
+			<g:HorizontalPanel styleName="MenuBar-Logo" ui:field="Picture"/>
+			<g:HorizontalPanel ui:field="MenuContainer" styleName="MenuBar-Principal">
+				<g:ToggleButton text="Map" styleName="MenuBar-Principal-Item" ui:field="ButtonMap" width="110" height="34"/>
+				<g:ToggleButton text="My Places" styleName="MenuBar-Principal-Item" ui:field="ButtonPlaces"/>
+				<g:ToggleButton text="Configuration" styleName="MenuBar-Principal-Item" ui:field="ButtonConfiguration" width="110" height="34"/>
+				<g:ToggleButton text="Log out" ui:field="ButtonLogOut"/>
+			</g:HorizontalPanel>
 		</g:FlowPanel>
+		<g:HorizontalPanel/>
 		<g:FlowPanel styleName="ContenedorCuerpo">
 			<g:FlowPanel styleName="Contenido" ui:field="CentralPanel"/>
 			<g:FlowPanel styleName="MenuPrincipal-PiePagina" ui:field="ListPanel">
 			<g:Label text="Taxonomy-based Opinion Extraction System v.1.0" styleName="MenuPrincipal-PiePagina-Titulo"/>
-			<g:Label text="Juan Manuel Nieto Moreno (jmnieto@us.es)" styleName="MenuPrincipal-PiePagina-Autor"/>
+			<g:Label text="Tour guida app" styleName="MenuPrincipal-PiePagina-Autor"/>
 			<g:FormPanel styleName="MenuPrincipal-DownloadForm" ui:field="formDownload" visible="false"/>
 		</g:FlowPanel>
 		</g:FlowPanel>

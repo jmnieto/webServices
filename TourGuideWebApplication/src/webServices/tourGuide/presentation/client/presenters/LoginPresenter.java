@@ -71,65 +71,41 @@ public class LoginPresenter extends Presenter{
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			view.setVisibleError(false);
+			/*view.setVisibleError(false);
 			
 			if(view.getUsername().isEmpty() || view.getPassword().isEmpty()){
 				view.setVisibleError(true);
 				view.focusUsername();
 			}else{
-				eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
-//				usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
-//					
-//					@Override
-//					public void onSuccess(ResponseLoginDTO result) {
-//						if(result.isLoginSuccessful()){
-//							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
-//						}else{
-//							view.setVisibleError(true, result.getMessage());
-//							view.focusUsername();
-//						}
-//					}
-//					
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						view.setVisibleError(true, caught.getMessage());
-//					}
-//				});
+				//eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+				usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
+					
+					@Override
+					public void onSuccess(ResponseLoginDTO result) {
+						if(result.isLoginSuccessful()){
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
+						}else{
+							view.setVisibleError(true, result.getMessage());
+							view.focusUsername();
+						}
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						view.setVisibleError(true, caught.getMessage());
+					}
+				});
 			}
-		}
+		}*/
+			eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));}
 	};
 	
 //////////////////////////////Register button///////////////////////////////
-ClickHandler register = new ClickHandler() {
+	ClickHandler register = new ClickHandler() {
 
-@Override
-public void onClick(ClickEvent event) {
-
-view.setVisibleError(false);
-
-if(view.getUsername().isEmpty() || view.getPassword().isEmpty()){
-view.setVisibleError(true);
-view.focusUsername();
-}else{
-eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
-//usersManager.loginUser(view.getUsername(), view.getPassword(), new AsyncCallback<ResponseLoginDTO>() {
-//
-//@Override
-//public void onSuccess(ResponseLoginDTO result) {
-//if(result.isLoginSuccessful()){
-//	eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Principal));
-//}else{
-//	view.setVisibleError(true, result.getMessage());
-//	view.focusUsername();
-//}
-//}
-//
-//@Override
-//public void onFailure(Throwable caught) {
-//view.setVisibleError(true, caught.getMessage());
-//}
-//});
-}
-}
-};
+		@Override
+		public void onClick(ClickEvent event) {
+			eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Register));
+		}
+	};
 }

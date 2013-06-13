@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 public class UserDTO implements Serializable{
 
-	private static final long serialVersionUID = -6784366461467095312L;
 
+	private static final long serialVersionUID = 5983093283134331443L;
+
+	
+	
 	private String  id;
 	private String  name;
+	private String 	pass;
+
 	private boolean gestionUser;
 	private boolean advancedFeatures;
 	private boolean opinionView;
@@ -23,6 +28,14 @@ public class UserDTO implements Serializable{
 		this.gestionUser = gestionUser;
 		this.advancedFeatures = advancedFeatures;
 		this.opinionView = opinionView;
+	}
+	
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	public String getId() {

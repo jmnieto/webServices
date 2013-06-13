@@ -39,6 +39,9 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	
 	@Override
 	public ResponseLoginDTO loginUser(String name, String pass) {
+		
+		
+		
 		if( name == null || pass == null ){
 			throw new IllegalArgumentException("Parameters are null.");
 		}
