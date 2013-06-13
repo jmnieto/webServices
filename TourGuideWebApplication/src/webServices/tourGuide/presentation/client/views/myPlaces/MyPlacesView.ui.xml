@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+	
+	<g:HTMLPanel styleName="MyPlaces-ContainerPanel" ui:field="ContainerPanel">
+		<g:FlowPanel>
+			<g:HorizontalPanel styleName="MyPlaces-PlacesPanel" ui:field="PlacesPanel"/>
+			<g:HorizontalPanel>
+				<g:ToggleButton text="Delete" ui:field="DeleteButton"/>
+			</g:HorizontalPanel>
+		</g:FlowPanel>
+
+
+
+	</g:HTMLPanel>
+</ui:UiBinder> 
