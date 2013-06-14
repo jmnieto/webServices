@@ -21,54 +21,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import java.util.List;
-
-//
-//import javax.ws.rs.core.GenericType;
-//import javax.ws.rs.core.MediaType;
-//import javax.ws.rs.core.MultivaluedMap;
-//import javax.ws.rs.core.UriBuilder;
-//
-//import webServices.tourGuide.domainLogic.model.location.Location;
-//import webServices.tourGuide.domainLogic.model.user.User;
-//import webServices.tourGuide.resources.exceptions.ExistingUserException;
-//import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
-//import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
-//
-//import com.sun.jersey.api.client.WebResource;
-//import com.sun.jersey.api.client.config.ClientConfig;
-//import com.sun.jersey.api.client.config.DefaultClientConfig;
-//import com.sun.jersey.api.json.JSONConfiguration;
-//import com.sun.jersey.core.util.MultivaluedMapImpl;
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.ClientResponse;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriBuilder;
-
-import webServices.tourGuide.domainLogic.model.location.Location;
-import webServices.tourGuide.domainLogic.model.user.User;
-import webServices.tourGuide.resources.exceptions.ExistingUserException;
-import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
-import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
-//import com.sun.jersey.api.client.GenericType;
-//import com.sun.jersey.api.client.WebResource;
-//import com.sun.jersey.api.client.config.ClientConfig;
-//import com.sun.jersey.api.client.config.DefaultClientConfig;
-//import com.sun.jersey.api.json.JSONConfiguration;
-//import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
     private WebResource resource;/* 10.0.0.5 */
