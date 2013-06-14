@@ -21,6 +21,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+
 public class Rest implements IResourcesLocation, IResourcesUsers {
     private Client client;
     private WebResource resource;/* 10.0.0.5 */
