@@ -14,7 +14,6 @@ import webServices.tourGuide.domainLogic.model.user.User;
 import webServices.tourGuide.resources.exceptions.ExistingUserException;
 import webServices.tourGuide.resources.interfaces.user.IResourcesUsers;
 
-
 /**
  * The Class UserAdministration.
  */
@@ -39,8 +38,7 @@ public class UserAdministration implements IResourcesUsers {
      * java.lang.String, users.domainLogic.business.RoleUser)
      */
     @Override
-    public User addUser(String name, String pass)
-	    throws ExistingUserException {
+    public User addUser(String name, String pass) throws ExistingUserException {
 	UserAccessor ua = UserAccessor.getUserAccessor();
 	User u = new User(name, pass);
 	ua.saveUser(u);
@@ -93,9 +91,9 @@ public class UserAdministration implements IResourcesUsers {
      * @see users.resourcesLayer.IResourcesUsers#getUser(java.lang.String)
      */
     @Override
-    public List<User> getUser(String nameUser) {
+    public User getUser(String nameUser) {
 	UserAccessor ua = UserAccessor.getUserAccessor();
-	return ua.retrieveUser(nameUser);
+	return ua.retrieveUser(nameUser).get(0);
     }
 
     /*
