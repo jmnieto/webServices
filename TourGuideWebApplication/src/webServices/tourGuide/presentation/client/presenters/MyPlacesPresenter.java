@@ -180,8 +180,8 @@ public class MyPlacesPresenter extends Presenter{
 					
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
+						eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+								"It was impossible to obtain your locations"));						
 					}
 				});
 				
@@ -189,8 +189,8 @@ public class MyPlacesPresenter extends Presenter{
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
+				eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+						"Try this action later."));				
 			}
 		});
 		
@@ -323,7 +323,7 @@ public class MyPlacesPresenter extends Presenter{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			/*usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+			usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
 				
 				@Override
 				public void onSuccess(UserDTO result) {
@@ -343,7 +343,8 @@ public class MyPlacesPresenter extends Presenter{
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+									"Error trying to delete a place from your list."));
 						}
 					});
 				}
@@ -353,22 +354,22 @@ public class MyPlacesPresenter extends Presenter{
 //					timer.schedule(5000);
 					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
 				}
-			});*/
+			});
 			
-			Set<LocationDTO> s = ((MultiSelectionModel<LocationDTO>)(table.getSelectionModel())).getSelectedSet(); 
-			System.out.print(s.size());
-			java.util.Iterator<LocationDTO> it = s.iterator();
-			int i =0;
-			LocationDTO aux = new LocationDTO();
-			
-			while(it.hasNext()){
-				aux = it.next();
-				//System.out.print(aux.getLink());
-				locationsToDelete.add(aux);
-				//System.out.print(locationsToDelete.get(i).getLink());
-				//i++;
-				
-			}
+//			Set<LocationDTO> s = ((MultiSelectionModel<LocationDTO>)(table.getSelectionModel())).getSelectedSet(); 
+//			System.out.print(s.size());
+//			java.util.Iterator<LocationDTO> it = s.iterator();
+//			int i =0;
+//			LocationDTO aux = new LocationDTO();
+//			
+//			while(it.hasNext()){
+//				aux = it.next();
+//				//--System.out.print(aux.getLink());
+//				locationsToDelete.add(aux);
+//				//--System.out.print(locationsToDelete.get(i).getLink());
+//				//--i++;
+//				
+//			}
 
 		}
 		

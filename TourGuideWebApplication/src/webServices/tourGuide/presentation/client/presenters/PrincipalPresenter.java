@@ -145,19 +145,19 @@ public class PrincipalPresenter extends Presenter{
 	
 	
 public void loadUser(){
-	usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
-		
-		@Override
-		public void onSuccess(UserDTO result) {
-			view.setLabelWelcome(result.getName());
-		}
-		
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-	});
+//	usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+//		
+//		@Override
+//		public void onSuccess(UserDTO result) {
+//			view.setLabelWelcome(result.getName());
+//		}
+//		
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//	});
 }
 //////////////////////////////Map button///////////////////////////////
 ClickHandler MapButton = new ClickHandler() {
@@ -192,34 +192,19 @@ ClickHandler LogOutButton = new ClickHandler() {
 @Override
 public void onClick(ClickEvent event) {
 	
-	usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+	usersManager.logoutUser(new AsyncCallback<Void>() {
 		
 		@Override
-		public void onSuccess(UserDTO result) {
-			usersManager.logoutUser(new AsyncCallback<Void>() {
-				
-				@Override
-				public void onSuccess(Void result) {
-					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Login));
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-			
+		public void onSuccess(Void result) {
+			eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Login));
 		}
 		
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
+			eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+					"Error in log out. Try it again later o contact us for more information"));					
 		}
 	});
-//
 }
 };
 	

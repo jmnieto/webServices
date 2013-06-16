@@ -118,11 +118,11 @@ public class MapPresenter extends Presenter{
 		addHandlerRegistration(view.getLocalizeButton().addClickHandler(LocalizeButton));
 		
 		/*TEST*/
-		LocationDTO pt = new LocationDTO("0","47.4419","11.38","Sitio A","www.pelitos.com","lo peta la descripcion");
-		intPoints.add(pt);
-		
-		pt = new LocationDTO("1","47.50","11.37","Sitio B","www.pelitos22.com","nu veah");
-		intPoints.add(pt);
+//		LocationDTO pt = new LocationDTO("0","47.4419","11.38","Sitio A","www.pelitos.com","lo peta la descripcion");
+//		intPoints.add(pt);
+//		
+//		pt = new LocationDTO("1","47.50","11.37","Sitio B","www.pelitos22.com","nu veah");
+//		intPoints.add(pt);
 		/*TEST END*/
 		
 		/*MAP*/
@@ -160,74 +160,73 @@ public class MapPresenter extends Presenter{
 		view.clear();
 	}
 	
-	public boolean search(String city){
-		
-		
-		return false;
-	}
 	
 	ClickHandler SearchButton = new ClickHandler() {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			/*LOOK IN GOOGLE*/
-			if(!search(view.getSearchText())){
-				eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
-			}
 			
+			if(!view.getSearchText().isEmpty()){
 			/*ADD TO OUR DB*/
-			usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+
+				usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
 				
-				@Override
-				public void onSuccess(UserDTO result) {
+					@Override
+					public void onSuccess(UserDTO result) {
 					
 					
-					locationManager.getLocations(result.getId(), new AsyncCallback<List<LocationDTO>>() {
+						locationManager.getLocations(result.getId(), new AsyncCallback<List<LocationDTO>>() {
 						
-						@Override
-						public void onSuccess(List<LocationDTO> result) {
+							@Override
+							public void onSuccess(List<LocationDTO> result) {
 							
-							boolean exist = false;
-							
-							for(int i = 0; i < result.size(); i++){
-								if(result.get(i).getName().equals(view.getSearchText()))
-									exist = true;
-							}
-							
-							if(!exist){ //ANADIR AQUI LA LOCALIZATION
-								locationManager.addLocation(result.get(0).getId(), 
-										view.getSearchText(), new AsyncCallback<LocationDTO>() {
+								boolean exist = false;
+								int res = 0;
+								for(int i = 0; i < result.size(); i++){
+									if(result.get(i).getName().equals(view.getSearchText())){
+										exist = true;
+										res = i;
+									}
+								}
+								
+								if(!exist){ //ADD location to My places
+									locationManager.addLocation(view.getSearchText(),result.get(0).getId(), 
+											 new AsyncCallback<LocationDTO>() {
 									
-									@Override
-									public void onSuccess(LocationDTO result) {
-										eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map,result));
+										@Override
+										public void onSuccess(LocationDTO result) {
+											eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map,result));
 										
-									}
+										}
 									
-									@Override
-									public void onFailure(Throwable caught) {
-										eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
-									}
-								});
-							}
-						}					
-						@Override
-						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+										@Override
+										public void onFailure(Throwable caught) {
+											eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+													"The city you are locking for doesn't exist"));
+										}
+									});
+								}else{
+									eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Map,result.get(res)));
+								}
+							}					
+							@Override
+							public void onFailure(Throwable caught) {
+								eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+									"Error trying to get locations"));
 							
-						}
-					});
+							}
+						});
 					
-	
-					
-				}
+					}
 				
-				@Override
-				public void onFailure(Throwable caught) {
-					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
-				}
-			});
+					@Override
+					public void onFailure(Throwable caught) {
+						eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+								"You are not user connected."));
+					}
+				});
+			}
 		}
 	};
 	
@@ -291,41 +290,24 @@ public class MapPresenter extends Presenter{
 	}
 	
 	/*******MAPS ON********/
-	
-	private LocationDTO getPlacesAroundMe(LocationDTO initialLocation){
-		
-		return null;
-	}
 
 	private List<LocationDTO> listLocations(final LocationDTO initial){
 		
 			final List<LocationDTO> locations = new ArrayList<LocationDTO>();
 		
-			usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+			locationManager.getLocations(initial, new AsyncCallback<List<LocationDTO>>() {
 				
 				@Override
-				public void onSuccess(UserDTO result) {
-					locationManager.getLocations(initial, new AsyncCallback<List<LocationDTO>>() {
-						
-						@Override
-						public void onSuccess(List<LocationDTO> result) {
-							for (int i = 0; i < result.size(); i++){
-								locations.add(result.get(i));
-							}
-						}
-						
-						@Override
-						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
-							
-						}
-					});
-					
+				public void onSuccess(List<LocationDTO> result) {
+					for (int i = 0; i < result.size(); i++){
+						locations.add(result.get(i));
+					}
 				}
 				
 				@Override
 				public void onFailure(Throwable caught) {
-					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error));
+					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+							"It was impossible to get locations around you"));
 					
 				}
 			});

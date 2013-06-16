@@ -121,7 +121,9 @@ public class ConfigurationPresenter extends Presenter{
 		
 		view.setVisibleError(false);
 		
-		UserDTO user = loadUser();
+		loadUser();
+		
+		
 	}
 	
 	@Override
@@ -134,31 +136,29 @@ public class ConfigurationPresenter extends Presenter{
 	}
 	
 	
-	public UserDTO loadUser(){
+	public void loadUser(){
 		
 		/*TEST ON*/
-		UserDTO user = new UserDTO();
-		user.setName("Juan Luis");
-		user.setPass("1234");
-		view.setNameText(user.getName());
+//		UserDTO user = new UserDTO();
+//		user.setName("Juan Luis");
+//		user.setPass("1234");
+//		view.setNameText(user.getName());
 		/*TEST OFF*/
-		
-//		usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
-//			
-//			@Override
-//			public void onSuccess(UserDTO result) {
-//				view.setNameText(result.getName());
-//				user = result;
-//			}
-//			
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
 
-		return user;
+		usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+			
+			@Override
+			public void onSuccess(UserDTO result) {
+				view.setNameText(result.getName());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				
+				
+			}
+		});
+		
 		
 	}
 	
@@ -182,7 +182,8 @@ public class ConfigurationPresenter extends Presenter{
 						
 						@Override
 						public void onFailure(Throwable caught) {
-							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"You cant be deleted. Contact us for more info."));
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+									"You cant be deleted. Contact us for more info."));
 							
 						}
 					});
@@ -190,7 +191,8 @@ public class ConfigurationPresenter extends Presenter{
 				
 				@Override
 				public void onFailure(Throwable caught) {
-					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,"Impossible to load user in configuration"));
+					eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+							"Impossible to load user in configuration"));
 				}
 			});
 		}
@@ -201,53 +203,124 @@ public class ConfigurationPresenter extends Presenter{
 		@Override
 		public void onClick(ClickEvent event) {
 			
-			if(view.getNameText() != null || view.getNameText() != "")
-				usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+			if(!view.getNameText().isEmpty()){
 				
-					@Override
-					public void onSuccess(UserDTO result) {
-						usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
-						
-							@Override
-							public void onSuccess(Void result) {
-							// TODO Auto-generated method stub
-							
-							}
-						
-							@Override
-							public void onFailure(Throwable caught) {
-								eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+//				usersManager.getUserConnected(new AsyncCallback<UserDTO>() {
+//				
+//					@Override
+//					public void onSuccess(UserDTO result) {
+//						
+//						//here the name is updated
+//						if(!view.getNameText().equals(result.getName())){
+//							usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
+//						
+//								@Override
+//								public void onSuccess(Void result) {
+//									usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
+//
+//										@Override
+//										public void onFailure(Throwable caught) {
+//											// TODO Auto-generated method stub
+//											
+//										}
+//
+//										@Override
+//										public void onSuccess(Void result) {
+//											// TODO Auto-generated method stub
+//											
+//										}
+//									});
+//								}
+//						
+//								@Override
+//								public void onFailure(Throwable caught) {
+//									eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+//											"Impossible to load user in configuration"));
+//
+//								}
+//							});
+//
+//						}
+//						//here the password is updated
+//						if(!view.getPass1Text().isEmpty() && !view.getPass2Text().isEmpty()){
+//							usersManager.setPassUser(view.getPass1Text(), view.getPass2Text(), new AsyncCallback<Void>() {
+//								
+//								@Override
+//								public void onSuccess(Void result) {
+//									
+//							
+//								}
+//						
+//								@Override
+//								public void onFailure(Throwable caught) {
+//									eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+//											"Impossible to update user information in configuration"));
+//									
+//								}
+//							});
+//						}
+//
+//				}
+//				
+//				@Override
+//				public void onFailure(Throwable caught) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//			});
+//			
+//			
+				
+				//here the name is updated
+				if(!view.getNameText().isEmpty()){
+					usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
+				
+						@Override
+						public void onSuccess(Void result) {
+							usersManager.setNameUser(view.getNameText(), new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									// TODO Auto-generated method stub
+									
+								}
+							});
+						}
+				
+						@Override
+						public void onFailure(Throwable caught) {
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
 									"Impossible to load user in configuration"));
 
-							}
-						});
+						}
+					});
 
-				if(view.getPass1Text() != null || view.getPass1Text() != ""){
-						usersManager.setPassUser(view.getPass1Text(), view.getPass2Text(), new AsyncCallback<Void>() {
+				}
+				//here the password is updated
+				if(!view.getPass1Text().isEmpty() && !view.getPass2Text().isEmpty()){
+					usersManager.setPassUser(view.getPass1Text(), view.getPass2Text(), new AsyncCallback<Void>() {
 						
-							@Override
-							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
+						@Override
+						public void onSuccess(Void result) {
 							
-							}
-						
-							@Override
-							public void onFailure(Throwable caught) {
-								eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
-										"Impossible to update user information in configuration"));
-								
-							}
-						});
-					}
-
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
 					
+						}
+				
+						@Override
+						public void onFailure(Throwable caught) {
+							eventBus.fireEvent(new NavigationEvent(NavigationEvent.Navigation.Error,
+									"Impossible to update user information in configuration"));
+							
+						}
+					});
 				}
-			});
+			}
 		}
 		
 	};

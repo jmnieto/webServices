@@ -6,10 +6,11 @@ import java.util.List;
 
 import webServices.tourGuide.domainLogic.model.location.Location;
 import webServices.tourGuide.domainLogic.services.interfaces.location.LocationService;
+import webServices.tourGuide.domainLogic.services.rest.Rest;
 import webServices.tourGuide.presentation.dataTransferObjects.LocationDTO;
 import webServices.tourGuide.presentation.dataTransferObjects.ResponseLocationDTO;
+import webServices.tourGuide.presentation.dataTransferObjects.UserDTO;
 import webServices.tourGuide.resources.interfaces.location.IResourcesLocation;
-import webServices.tourGuide.domainLogic.services.rest.*;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -72,6 +73,7 @@ public class LocationServiceImpl extends RemoteServiceServlet implements Locatio
 
 	@Override
 	public List<LocationDTO> getLocations(String id) {
+		//UserDTO userDTO = getUserConnected(); 
 		
 		List<LocationDTO> locationsDTO = new ArrayList<LocationDTO>();
 		List<Location> listLocation = locationManager.getLocations(id);
@@ -124,7 +126,7 @@ public class LocationServiceImpl extends RemoteServiceServlet implements Locatio
 	}
 
 	@Override
-	public LocationDTO addLocation(String userId, String location) {
+	public LocationDTO addLocation(String location, String userId) {
 		
 		Location loc = new Location();
 		//loc = convertLocation(location);

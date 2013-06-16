@@ -211,6 +211,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 		return result;
 	}
 
+	//We should delete String role.
 	@Override
 	public ResponseDTO addUser(String name, String pass, String passConfir, String role) {
 		if(name == null || name.isEmpty() || pass == null || pass.isEmpty() ||
@@ -361,7 +362,10 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 	@Override
 	public List<UserDTO> getUsers() {
 		//logger.trace("Obteniendo los usuarios del sistema.");
+		
+		//UserDTO userResult = new UserDTO();
 		List<UserDTO> result = new ArrayList<UserDTO>();
+		
 		//UserDTO userConected = getUserConnected();
 		
 //		if(userConected == null){
@@ -370,15 +374,19 @@ public class UsersServiceImpl extends RemoteServiceServlet implements UsersServi
 //		}
 		
 		try{
-			for(User user : usersManager.getUsers()){
+			
+			//userResult = userManager.getUser();
+			List<User> user;
+			user = usersManager.getUsers();
+			for(int i = 0; i < user.size(); i++){
 			//if(user.getId().compareTo(userConected.getId()) != 0){
-				result.add(convertUserDTO(user));
-			//}
-		}
+				result.add(convertUserDTO(user.get(i)));
+			}
 		}catch(Exception exc){
 			System.out.println(exc);
 		}
 		return result;
+//		return userResult;
 	}
 	
 	private UserDTO convertUserDTO(User user) {

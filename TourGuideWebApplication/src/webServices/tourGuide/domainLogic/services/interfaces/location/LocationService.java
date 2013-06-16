@@ -47,6 +47,7 @@ public interface LocationService extends RemoteService {
 	public void deleteLocation(String idUser, List<LocationDTO> loc);
 	
 	//Add a new location
-	public LocationDTO addLocation(String userId, String location);
+	public LocationDTO addLocation(String city, String userId);
+	
 	
 }

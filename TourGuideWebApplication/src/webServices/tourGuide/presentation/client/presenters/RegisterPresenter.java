@@ -69,6 +69,7 @@ public class RegisterPresenter extends Presenter{
 	}
 	
 //////////////////////////////OK button///////////////////////////////
+	//DONE
 	ClickHandler ButtonRegister = new ClickHandler() {
 		
 		@Override

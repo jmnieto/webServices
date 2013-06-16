@@ -9,5 +9,17 @@
 	<classpathentry kind="lib" path="/Libraries/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/Libraries/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/Libraries/gwt-maps.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="/Libraries/asm-3.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jackson-mapper-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jackson-xc-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jersey-client-1.17.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jersey-core-1.17.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jersey-servlet-1.17.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jettison-1.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jackson-jaxrs-1.9.2.jar"/>
+	<classpathentry kind="lib" path="/Libraries/jersey-json.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

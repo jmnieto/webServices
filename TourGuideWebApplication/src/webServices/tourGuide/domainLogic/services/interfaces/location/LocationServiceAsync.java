@@ -28,8 +28,9 @@ public interface LocationServiceAsync {
 	void getLocations(LocationDTO initialLocation,
 			AsyncCallback<List<LocationDTO>> callback);
 
-	void addLocation(String userId, String location,
+	void addLocation(String city, String userId,
 			AsyncCallback<LocationDTO> callback);
+
 
 
 }
