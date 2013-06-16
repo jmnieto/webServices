@@ -40,7 +40,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     private WebResource resource;/* 10.0.0.5 */
 
     /** The Constant REST_PATH. */
-    private static final String REST_PATH = "http://wuidl.no-ip.org:8080/guide/rest/";
+    private static final String REST_PATH = "http://10.0.0.5:8080/guide/rest/";
 
     /** The Constant LOC_PATH. */
     private static final String LOC_PATH = "location/";
