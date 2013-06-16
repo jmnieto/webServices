@@ -278,7 +278,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	return this.resource.path(LOC_PATH).path("getLocationsByMyLoc")
 		.type("application/json").accept("application/json")
 		.post(new GenericType<List<Location>>() {
-		});
+		}, myLocalization);
     }
 
     /*
