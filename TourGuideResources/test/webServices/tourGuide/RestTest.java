@@ -26,7 +26,7 @@ public class RestTest {
 	l.setLng("");
 	l.setLink("http://www.innsbruck.gv.at");
 	l.setDescription("Innsbruck is a town in Tyrol, Austria.");
-	System.out.println(r.existUser("walter"));
+
 	// List<User> wuidl = r.getUser("walter");
 	// List<Location> s = r.addLocation(l, "1");
 	// if (wuidl == null) {
@@ -37,9 +37,10 @@ public class RestTest {
 	// System.out.println(s.toString());
 	Location loc = r.addLocation("New York", "40.67", "-73.94",
 		"http://www.nyc.com", "New York City", "1");
-	r.addLocation(l, "2");
-	System.out.println(r.addUser(u));
-	System.out.println(r.getUsers().toString());
+	//r.addLocation(l, "2");
+	//System.out.println(r.addUser(u));
+	//System.out.println(r.getUsers().toString());
+	System.out.println(r.existUser("herbert"));
 	System.out.println(r.getUser("walter"));
 	System.out.println(loc.toString());
 

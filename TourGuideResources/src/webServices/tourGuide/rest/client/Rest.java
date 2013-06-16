@@ -275,8 +275,10 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
      */
     @Override
     public List<Location> getLocations(Location myLocalization) {
-	// TODO Auto-generated method stub
-	return null;
+	return this.resource.path(LOC_PATH).path("getLocationsByMyLoc")
+		.type("application/json").accept("application/json")
+		.post(new GenericType<List<Location>>() {
+		});
     }
 
     /*
