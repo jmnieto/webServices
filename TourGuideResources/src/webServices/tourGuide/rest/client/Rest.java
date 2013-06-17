@@ -157,10 +157,9 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
      */
     @Override
     public boolean existUser(String nameUser) {
-	ClientResponse builder = this.resource.path(USR_PATH).path("existUser")
+	return this.resource.path(USR_PATH).path("existUser")
 		.queryParam("name", nameUser).type("text/plain")
-		.accept("application/json").get(ClientResponse.class);
-	return builder.getStatus() == 200 ? true : false;
+		.accept("application/json").get(Boolean.class);
     }
 
     /*
@@ -175,10 +174,9 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	MultivaluedMap<String, String> map = new MultivaluedMapImpl();
 	map.putSingle("name", nameUser);
 	map.putSingle("pwd", password);
-	ClientResponse response = this.resource.path(USR_PATH)
-		.path("checkPassword").type("text/plain")
-		.accept("application/json").post(ClientResponse.class);
-	return response.getStatus() == 200 ? true : false;
+	return this.resource.path(USR_PATH).path("checkPassword")
+		.queryParams(map).type("text/plain").accept("application/json")
+		.get(Boolean.class);
     }
 
     /*

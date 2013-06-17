@@ -40,7 +40,7 @@ public class RestTest {
 	// r.addLocation(l, "2");
 	// System.out.println(r.addUser(u));
 	// System.out.println(r.getUsers().toString());
-	// //System.out.println(r.existUser("herbert"));
+	System.out.println(r.checkPassword("walter", "123456"));
 	// System.out.println(r.getLocations(loc));
 	// System.out.println(r.getLocations("7").toString());
 	// System.out.println(r.getUser("walter"));
