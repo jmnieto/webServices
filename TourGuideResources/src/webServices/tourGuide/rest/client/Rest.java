@@ -259,7 +259,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
      */
     @Override
     public List<Location> getLocations(String userId) {
-	return this.resource.path(LOC_PATH).path("retrieveLocationByUserId")
+	return this.resource.path(LOC_PATH).path("getLocationsByUserId")
 		.queryParam("id", userId)
 		.get(new GenericType<List<Location>>() {
 		});
@@ -369,6 +369,23 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 	Location loc = new Location();
 	loc.setName(city);
 	return this.addLocation(city, "", "", "", "", userId);
+    }
+
+    /* ************* API calls */
+
+    /**
+     * Gets all wikipedia articles according to a location within a 1500 meter
+     * radius and a limit of 10 articles.
+     * 
+     * @param myLocalization
+     *            the my localization
+     * @return the articles
+     */
+    public List<Location> getArticles(Location myLocalization) {
+	return this.resource.path(LOC_PATH).path("getWikiByMyLoc")
+		.type("application/json").accept("application/json")
+		.post(new GenericType<List<Location>>() {
+		}, myLocalization);
     }
 
 }
