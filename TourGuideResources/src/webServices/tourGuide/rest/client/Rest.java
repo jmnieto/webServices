@@ -342,6 +342,14 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
 
     }
 
+    /**
+     * Delete user locations.
+     * 
+     * @param idUser
+     *            the id user
+     * @param list
+     *            the list
+     */
     private void deleteUserLocations(String idUser, List<Location> list) {
 	for (Location l : list) {
 	    this.resource.path(LOC_PATH).path("deleteLocations")
