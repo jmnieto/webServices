@@ -35,8 +35,8 @@ public class RestTest {
 	// System.out.println(wuidl.toString());
 	// }
 	// System.out.println(s.toString());
-	Location loc = r.addLocation("New York", "40.67", "-73.94",
-		"http://www.nyc.com", "New York City", "1");
+	// Location loc = r.addLocation("New York", "40.67", "-73.94",
+	// "http://www.nyc.com", "New York City", "1");
 	// r.addLocation(l, "2");
 	// System.out.println(r.addUser(u));
 	// System.out.println(r.getUsers().toString());
@@ -45,7 +45,8 @@ public class RestTest {
 	// System.out.println(r.getLocations("7").toString());
 	// System.out.println(r.getUser("walter"));
 	// System.out.println(loc.toString());
-	System.out.println(r.getLocations("1"));
+	//System.out.println(r.getLocations("1"));
+	System.out.println(r.addLocation(l, "4").toString());
 
     }
 }

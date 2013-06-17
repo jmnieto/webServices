@@ -345,7 +345,7 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
     private void deleteUserLocations(String idUser, List<Location> list) {
 	for (Location l : list) {
 	    this.resource.path(LOC_PATH).path("deleteLocations")
-	    .queryParam("id", idUser).post(l);
+	    .queryParam("id", idUser).type("application/json").post(l);
 	}
     }
 
