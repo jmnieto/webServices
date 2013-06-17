@@ -45,8 +45,11 @@ public class RestTest {
 	// System.out.println(r.getLocations("7").toString());
 	// System.out.println(r.getUser("walter"));
 	// System.out.println(loc.toString());
-	//System.out.println(r.getLocations("1"));
-	System.out.println(r.addLocation(l, "4").toString());
+	// System.out.println(r.getLocations("1"));
+	// System.out.println(r.addLocation(l, "4").toString());
+	Location m = new Location();
+	m.setName("Madrid");
+	System.out.println(r.getLocations(m));
 
     }
 }
