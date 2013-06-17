@@ -337,9 +337,15 @@ public class Rest implements IResourcesLocation, IResourcesUsers {
      * #deleteLocationByUserId(java.lang.String, java.util.List)
      */
     @Override
-    public void deleteLocationByUserId(String idUser, final List<Location> loc) {
-	for (Location l : loc) {
-	    this.deleteLocation(l);
+    public void deleteLocationByUserId(String idUser, List<Location> loc) {
+	this.deleteUserLocations(idUser, loc);
+
+    }
+
+    private void deleteUserLocations(String idUser, List<Location> list) {
+	for (Location l : list) {
+	    this.resource.path(LOC_PATH).path("deleteLocations")
+	    .queryParam("id", idUser).post(l);
 	}
     }
 
